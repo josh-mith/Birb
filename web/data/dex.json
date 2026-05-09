@@ -1,0 +1,20 @@
+[
+  {
+    "id": "001",
+    "name": "Northern Cardinal",
+    "scientific": "Cardinalis cardinalis",
+    "date": "2024-04-01",
+    "location": "Zilker Park",
+    "sprite": "/assets/icons/icon_northern_cardinal.png",
+    "is_unlocked": true
+  },
+  {
+    "id": "002",
+    "name": "Blue-gray Gnatcatcher",
+    "scientific": "Polioptila caerulea",
+    "date": "2024-05-02",
+    "location": "Zilker Park",
+    "sprite": "/assets/icons/icon_blue_gray_gnatcatcher.png",
+    "is_unlocked": true
+  }
+]
