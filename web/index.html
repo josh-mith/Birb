@@ -23,10 +23,30 @@
                 <p class="eyebrow">NATIONAL DEX</p>
                 <p class="dedication">Mother's Day Edition</p>
             </div>
-            <p class="counter">CAUGHT: <span id="caught-counter">0</span> / <span id="total-counter">24</span></p>
+            <p class="counter">DISCOVERED: <span id="caught-counter">0</span> / <span id="total-counter">24</span></p>
         </header>
 
         <main class="screen" aria-label="Bird Pokédex">
+            <form class="dex-controls" role="search">
+                <label class="control-field" for="search-input">
+                    <span>Search</span>
+                    <input id="search-input" type="search" autocomplete="off" placeholder="Name, place, habitat">
+                </label>
+                <label class="control-field" for="habitat-filter">
+                    <span>Habitat</span>
+                    <select id="habitat-filter">
+                        <option value="">All habitats</option>
+                    </select>
+                </label>
+                <label class="control-field" for="rarity-filter">
+                    <span>Rarity</span>
+                    <select id="rarity-filter">
+                        <option value="">All rarities</option>
+                    </select>
+                </label>
+                <button id="clear-filters" class="clear-button" type="button">Clear</button>
+            </form>
+            <p id="result-message" class="result-message" hidden></p>
             <p id="loading-message" class="system-message">Loading sightings...</p>
             <div id="pokedex-grid" class="pokedex-grid" aria-live="polite"></div>
         </main>
@@ -53,6 +73,14 @@
                         <div>
                             <dt>Location</dt>
                             <dd id="modal-location"></dd>
+                        </div>
+                        <div>
+                            <dt>Habitat</dt>
+                            <dd id="modal-habitat"></dd>
+                        </div>
+                        <div>
+                            <dt>Rarity</dt>
+                            <dd id="modal-rarity"></dd>
                         </div>
                     </dl>
                 </div>

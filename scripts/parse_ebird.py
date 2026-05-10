@@ -33,6 +33,62 @@ BIOS = {
 }
 
 
+HABITATS = {
+    "American Crow": "Urban / Woodland",
+    "American Goldfinch": "Fields / Backyard",
+    "American Robin": "Lawn / Woodland",
+    "Bewick's Wren": "Brush / Woodland Edge",
+    "Blue-gray Gnatcatcher": "Woodland",
+    "Brown-headed Cowbird": "Fields / Pasture",
+    "Canada Goose": "Lakeside",
+    "Carolina Chickadee": "Woodland",
+    "Carolina Wren": "Brush / Backyard",
+    "Cedar Waxwing": "Orchard / Woodland Edge",
+    "Dark-eyed Junco": "Woodland Edge",
+    "Eurasian Collared-Dove": "Urban / Backyard",
+    "House Finch": "Backyard / Urban",
+    "House Sparrow": "Urban",
+    "Marsh Wren": "Wetland",
+    "Mourning Dove": "Backyard / Open Country",
+    "Northern Cardinal": "Backyard / Woodland Edge",
+    "Northern Flicker": "Open Woodland",
+    "Red-bellied Woodpecker": "Woodland",
+    "Tufted Titmouse": "Woodland",
+    "White-eyed Vireo": "Thicket",
+    "White-throated Sparrow": "Brush / Woodland Edge",
+    "White-winged Dove": "Backyard / Open Country",
+    "Yellow-rumped Warbler": "Woodland Edge",
+}
+
+
+RARITIES = {
+    "American Crow": "Common",
+    "American Goldfinch": "Common",
+    "American Robin": "Common",
+    "Bewick's Wren": "Special",
+    "Blue-gray Gnatcatcher": "Uncommon",
+    "Brown-headed Cowbird": "Common",
+    "Canada Goose": "Common",
+    "Carolina Chickadee": "Common",
+    "Carolina Wren": "Common",
+    "Cedar Waxwing": "Uncommon",
+    "Dark-eyed Junco": "Common",
+    "Eurasian Collared-Dove": "Special",
+    "House Finch": "Common",
+    "House Sparrow": "Common",
+    "Marsh Wren": "Uncommon",
+    "Mourning Dove": "Common",
+    "Northern Cardinal": "Legendary Yard Visitor",
+    "Northern Flicker": "Uncommon",
+    "Red-bellied Woodpecker": "Common",
+    "Tufted Titmouse": "Common",
+    "White-eyed Vireo": "Uncommon",
+    "White-throated Sparrow": "Common",
+    "White-winged Dove": "Special",
+    "Yellow-rumped Warbler": "Uncommon",
+}
+
+
 DATE_FORMATS = ("%Y-%m-%d", "%d %b %Y", "%m/%d/%Y", "%m-%d-%Y")
 
 
@@ -90,6 +146,8 @@ def main():
                 "scientific": row.get("Scientific Name", "").strip(),
                 "date": formatted_date,
                 "location": row.get("Location", "").strip(),
+                "habitat": HABITATS.get(name, "Unknown Habitat"),
+                "rarity": RARITIES.get(name, "Common"),
                 "bio": BIOS.get(name, "A mysterious feathered friend waiting for its Pokédex legend."),
                 "icon_path": f"assets/icons/icon_{slug}.png",
                 "full_path": f"assets/full/full_{slug}.png",

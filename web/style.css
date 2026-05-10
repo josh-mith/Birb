@@ -35,6 +35,11 @@ button {
     font: inherit;
 }
 
+input,
+select {
+    font: inherit;
+}
+
 img {
     max-width: 100%;
     mix-blend-mode: multiply;
@@ -96,10 +101,70 @@ img {
     box-shadow: inset 0 0 0 5px #b8c8ad;
 }
 
+.dex-controls {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 10px;
+    border: 3px solid var(--ink);
+    border-radius: 12px;
+    background: rgba(255, 248, 232, 0.8);
+}
+
+.control-field {
+    display: grid;
+    gap: 6px;
+}
+
+.control-field span {
+    color: var(--dex-red-dark);
+    font-size: 7px;
+}
+
+.control-field input,
+.control-field select {
+    width: 100%;
+    min-height: 38px;
+    padding: 8px;
+    border: 3px solid var(--ink);
+    border-radius: 8px;
+    color: var(--ink);
+    background: var(--off-white);
+    font-size: 8px;
+}
+
+.control-field input:focus,
+.control-field select:focus {
+    outline: 3px solid #ffeb3b;
+    outline-offset: 2px;
+}
+
+.clear-button {
+    min-height: 38px;
+    padding: 8px 10px;
+    border: 3px solid var(--ink);
+    border-radius: 8px;
+    color: var(--off-white);
+    background: var(--slate);
+    box-shadow: 3px 3px 0 var(--ink);
+    cursor: pointer;
+}
+
+.result-message {
+    margin: 0 0 10px;
+    color: var(--slate);
+    font-size: 7px;
+    text-align: center;
+}
+
 .pokedex-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 10px;
+}
+
+.pokedex-grid .empty-message {
+    grid-column: 1 / -1;
 }
 
 .system-message {
@@ -171,6 +236,31 @@ img {
     min-height: 34px;
     margin: 4px 0;
     font-size: 8px;
+}
+
+.badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 8px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 3px 4px;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    color: var(--ink);
+    font-size: 6px;
+    line-height: 1.3;
+}
+
+.habitat-badge {
+    background: #c8e6c9;
+}
+
+.rarity-badge {
+    background: #ffe082;
 }
 
 .modal-overlay {
@@ -274,6 +364,11 @@ img {
 
     .pokedex-grid {
         gap: 14px;
+    }
+
+    .dex-controls {
+        grid-template-columns: 1.4fr 1fr 1fr auto;
+        align-items: end;
     }
 
     .modal-screen {
