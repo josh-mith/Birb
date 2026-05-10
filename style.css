@@ -1,0 +1,378 @@
+:root {
+    --dex-red: #e53935;
+    --dex-red-dark: #9f1f1d;
+    --slate: #2f3a44;
+    --slate-light: #53616f;
+    --off-white: #fff8e8;
+    --screen: #dce9d2;
+    --ink: #15191d;
+    --shadow: rgba(0, 0, 0, 0.35);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+    background: var(--slate);
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 18px;
+    color: var(--ink);
+    font-family: "Press Start 2P", system-ui, sans-serif;
+    background:
+        radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.2), transparent 28%),
+        linear-gradient(135deg, var(--dex-red), #c52925 58%, var(--slate));
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+button {
+    font: inherit;
+}
+
+input,
+select {
+    font: inherit;
+}
+
+img {
+    max-width: 100%;
+    mix-blend-mode: multiply;
+    image-rendering: pixelated;
+}
+
+.gba-shell {
+    width: min(720px, 100%);
+    margin: 0 auto;
+    padding: 16px;
+    border: 5px solid var(--ink);
+    border-radius: 28px 28px 60px 28px;
+    background: var(--dex-red);
+    box-shadow: 10px 10px 0 var(--shadow), inset 5px 5px 0 rgba(255, 255, 255, 0.24);
+}
+
+.dex-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px;
+    margin-bottom: 14px;
+    color: var(--off-white);
+    border: 4px solid var(--ink);
+    border-radius: 16px;
+    background: var(--slate);
+    box-shadow: inset -4px -4px 0 rgba(0, 0, 0, 0.28), inset 4px 4px 0 rgba(255, 255, 255, 0.16);
+}
+
+.eyebrow,
+.counter,
+.dedication {
+    margin: 0;
+}
+
+.eyebrow {
+    font-size: clamp(12px, 4vw, 20px);
+    letter-spacing: 1px;
+}
+
+.counter {
+    color: #ffeb3b;
+    font-size: clamp(8px, 2.6vw, 12px);
+    white-space: nowrap;
+}
+
+.dedication {
+    margin-top: 8px;
+    color: #ffd4d2;
+    font-size: 7px;
+}
+
+.screen {
+    padding: 12px;
+    border: 5px solid var(--ink);
+    border-radius: 14px;
+    background: var(--screen);
+    box-shadow: inset 0 0 0 5px #b8c8ad;
+}
+
+.dex-controls {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 10px;
+    border: 3px solid var(--ink);
+    border-radius: 12px;
+    background: rgba(255, 248, 232, 0.8);
+}
+
+.control-field {
+    display: grid;
+    gap: 6px;
+}
+
+.control-field span {
+    color: var(--dex-red-dark);
+    font-size: 7px;
+}
+
+.control-field input,
+.control-field select {
+    width: 100%;
+    min-height: 38px;
+    padding: 8px;
+    border: 3px solid var(--ink);
+    border-radius: 8px;
+    color: var(--ink);
+    background: var(--off-white);
+    font-size: 8px;
+}
+
+.control-field input:focus,
+.control-field select:focus {
+    outline: 3px solid #ffeb3b;
+    outline-offset: 2px;
+}
+
+.clear-button {
+    min-height: 38px;
+    padding: 8px 10px;
+    border: 3px solid var(--ink);
+    border-radius: 8px;
+    color: var(--off-white);
+    background: var(--slate);
+    box-shadow: 3px 3px 0 var(--ink);
+    cursor: pointer;
+}
+
+.result-message {
+    margin: 0 0 10px;
+    color: var(--slate);
+    font-size: 7px;
+    text-align: center;
+}
+
+.pokedex-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.pokedex-grid .empty-message {
+    grid-column: 1 / -1;
+}
+
+.system-message {
+    margin: 0;
+    padding: 18px;
+    border: 3px solid var(--ink);
+    border-radius: 10px;
+    background: var(--off-white);
+    text-align: center;
+}
+
+.system-message[hidden] {
+    display: none;
+}
+
+.bird-card {
+    min-width: 0;
+    padding: 8px;
+    border: 3px solid var(--ink);
+    border-radius: 10px;
+    color: var(--ink);
+    background: var(--off-white);
+    box-shadow: 4px 4px 0 var(--slate), inset 2px 2px 0 rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    text-align: left;
+    transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.bird-card:hover,
+.bird-card:focus-visible {
+    transform: translate(-1px, -1px);
+    box-shadow: 5px 5px 0 var(--slate), inset 2px 2px 0 rgba(255, 255, 255, 0.8);
+    outline: none;
+}
+
+.bird-card:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--slate);
+}
+
+.sprite-frame {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    margin-bottom: 8px;
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    background: #f2efd0;
+}
+
+.bird-icon {
+    width: 78%;
+    height: 78%;
+    object-fit: contain;
+}
+
+.silhouette {
+    filter: brightness(0);
+}
+
+.bird-number,
+.bird-location {
+    margin: 0;
+    color: var(--slate-light);
+    font-size: 7px;
+}
+
+.bird-name {
+    min-height: 34px;
+    margin: 4px 0;
+    font-size: 8px;
+}
+
+.badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 8px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 3px 4px;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    color: var(--ink);
+    font-size: 6px;
+    line-height: 1.3;
+}
+
+.habitat-badge {
+    background: #c8e6c9;
+}
+
+.rarity-badge {
+    background: #ffe082;
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: grid;
+    place-items: center;
+    padding: 16px;
+    background: rgba(21, 25, 29, 0.76);
+}
+
+.modal-overlay[hidden] {
+    display: none;
+}
+
+.modal-console {
+    width: min(620px, 100%);
+    padding: 14px;
+    border: 5px solid var(--ink);
+    border-radius: 22px;
+    background: var(--dex-red);
+    box-shadow: 9px 9px 0 var(--shadow), inset 4px 4px 0 rgba(255, 255, 255, 0.2);
+}
+
+.close-button {
+    display: block;
+    margin: 0 0 12px auto;
+    padding: 10px 12px;
+    border: 3px solid var(--ink);
+    border-radius: 8px;
+    color: var(--off-white);
+    background: var(--slate);
+    box-shadow: 3px 3px 0 var(--ink);
+    cursor: pointer;
+}
+
+.close-button:focus-visible {
+    outline: 3px solid #ffeb3b;
+    outline-offset: 3px;
+}
+
+.modal-screen {
+    display: grid;
+    gap: 14px;
+    padding: 14px;
+    border: 5px solid var(--ink);
+    border-radius: 14px;
+    background: var(--screen);
+    box-shadow: inset 0 0 0 5px #b8c8ad;
+}
+
+.modal-image {
+    width: 100%;
+    max-height: 280px;
+    object-fit: contain;
+    border: 3px solid var(--ink);
+    border-radius: 10px;
+    background: var(--off-white);
+}
+
+.modal-copy h1 {
+    margin: 4px 0 12px;
+    font-size: clamp(14px, 5vw, 22px);
+    line-height: 1.35;
+}
+
+.bio {
+    margin: 0 0 14px;
+    padding: 10px;
+    border: 3px solid var(--ink);
+    border-radius: 8px;
+    background: var(--off-white);
+}
+
+.stats-list {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+}
+
+.stats-list div {
+    padding: 8px;
+    border: 2px solid var(--ink);
+    background: rgba(255, 248, 232, 0.72);
+}
+
+.stats-list dt {
+    margin-bottom: 4px;
+    color: var(--dex-red-dark);
+}
+
+.stats-list dd {
+    margin: 0;
+}
+
+@media (min-width: 620px) {
+    body {
+        padding: 28px;
+    }
+
+    .pokedex-grid {
+        gap: 14px;
+    }
+
+    .dex-controls {
+        grid-template-columns: 1.4fr 1fr 1fr auto;
+        align-items: end;
+    }
+
+    .modal-screen {
+        grid-template-columns: 240px 1fr;
+        align-items: start;
+    }
+}
