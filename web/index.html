@@ -2,42 +2,70 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bird Pokédex</title>
-
-    <!-- PWA meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#e53935">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Bird Pokédex">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="description" content="A Mother's Day Bird Pokédex of 24 real-life sightings.">
+    <title>Bird Pokédex</title>
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="/assets/icons/icon_northern_cardinal.png">
-
-    <!-- Fonts -->
+    <link rel="apple-touch-icon" href="assets/icons/icon_northern_cardinal.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
-    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="dex-header">
-        <h1>National Dex</h1>
-        <div class="counter">Caught: <span id="caught-counter">0</span>/24</div>
-    </header>
+    <div class="gba-shell">
+        <header class="dex-header">
+            <div>
+                <p class="eyebrow">NATIONAL DEX</p>
+                <p class="dedication">Mother's Day Edition</p>
+            </div>
+            <p class="counter">CAUGHT: <span id="caught-counter">0</span> / <span id="total-counter">24</span></p>
+        </header>
 
-    <main id="pokedex-grid" class="grid-container">
-        <!-- Bird cards will be injected here by app.js -->
-    </main>
+        <main class="screen" aria-label="Bird Pokédex">
+            <p id="loading-message" class="system-message">Loading sightings...</p>
+            <div id="pokedex-grid" class="pokedex-grid" aria-live="polite"></div>
+        </main>
+    </div>
 
-    <!-- JS -->
+    <div id="detail-modal" class="modal-overlay" hidden>
+        <section class="modal-console" role="dialog" aria-modal="true" aria-labelledby="modal-name">
+            <button id="modal-close" class="close-button" type="button">Close</button>
+            <div class="modal-screen">
+                <img id="modal-image" class="modal-image" src="" alt="">
+                <div class="modal-copy">
+                    <p id="modal-id" class="bird-number"></p>
+                    <h1 id="modal-name"></h1>
+                    <p id="modal-bio" class="bio"></p>
+                    <dl class="stats-list">
+                        <div>
+                            <dt>Scientific</dt>
+                            <dd id="modal-scientific"></dd>
+                        </div>
+                        <div>
+                            <dt>Date</dt>
+                            <dd id="modal-date"></dd>
+                        </div>
+                        <div>
+                            <dt>Location</dt>
+                            <dd id="modal-location"></dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </section>
+    </div>
+
     <script src="app.js"></script>
     <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js').then(registration => {
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                }, err => {
-                    console.log('ServiceWorker registration failed: ', err);
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker.register("sw.js").catch((error) => {
+                    console.error("Service worker registration failed:", error);
                 });
             });
         }

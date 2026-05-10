@@ -1,98 +1,107 @@
 import csv
 import json
-import os
+import re
 from datetime import datetime
+from pathlib import Path
 
-def parse_date(date_str):
-    try:
-        return datetime.strptime(date_str, "%Y-%m-%d")
-    except ValueError:
-        pass
-    try:
-        return datetime.strptime(date_str, "%m/%d/%Y")
-    except ValueError:
-        pass
-    try:
-        return datetime.strptime(date_str, "%m-%d-%Y")
-    except ValueError:
-        pass
 
-    return datetime.max # Fallback
+BIOS = {
+    "American Crow": "A clever black-feathered trickster who remembers every snack spot and every rival.",
+    "American Goldfinch": "A tiny sunbeam flitting through the weeds, powered by seeds and pure sparkle.",
+    "American Robin": "A cheerful lawn scout with a berry-bright belly and an excellent worm radar.",
+    "Bewick's Wren": "A bold little tail-flicker that sings like it has a whole orchestra hidden in its chest.",
+    "Blue-gray Gnatcatcher": "A silvery sprite that zips through branches faster than a blink spell.",
+    "Brown-headed Cowbird": "A sneaky prairie wanderer with shiny armor and mysterious parenting tactics.",
+    "Canada Goose": "A honking sky tank that travels in formation and guards picnic turf with confidence.",
+    "Carolina Chickadee": "A pocket-sized forest friend calling its name like a secret password.",
+    "Carolina Wren": "A cinnamon song-blaster whose voice is far bigger than its round little body.",
+    "Cedar Waxwing": "A silky masked berry-ninja with polished feathers and a sweet tooth.",
+    "Dark-eyed Junco": "A snow-colored shadow hopper that appears when the air turns crisp and magical.",
+    "Eurasian Collared-Dove": "A soft gray peace-messenger with a neat collar and a gentle coo attack.",
+    "House Finch": "A rosy-headed rooftop bard that turns ordinary mornings into concerts.",
+    "House Sparrow": "A scrappy city companion that can find crumbs in any kingdom.",
+    "Marsh Wren": "A reed-dwelling chatterbox that builds secret forts in the cattails.",
+    "Mourning Dove": "A gentle dawn crooner whose wings whistle softly when it launches into the sky.",
+    "Northern Cardinal": "A fiery red guardian of the garden with a sharp, cheerful song.",
+    "Northern Flicker": "A spotted ground-forager with a flash of wing-magic and a woodpecker's spark.",
+    "Red-bellied Woodpecker": "A striped tree-knocker with a hidden blush and a powerful beak drill.",
+    "Tufted Titmouse": "A tiny gray knight with a crest, bright eyes, and fearless curiosity.",
+    "White-eyed Vireo": "A bright-eyed leaf wizard singing questions from deep inside the green.",
+    "White-throated Sparrow": "A crisp little traveler with a whistle that sounds like a forest spell.",
+    "White-winged Dove": "A desert-soft flyer marked with moonlit wings and a mellow coo.",
+    "Yellow-rumped Warbler": "A butter-flashed bug hunter that zips through trees like a tiny lightning bolt.",
+}
+
+
+DATE_FORMATS = ("%Y-%m-%d", "%d %b %Y", "%m/%d/%Y", "%m-%d-%Y")
+
+
+def parse_date(value):
+    for date_format in DATE_FORMATS:
+        try:
+            return datetime.strptime(value, date_format)
+        except ValueError:
+            continue
+    return datetime.max
+
+
+def image_slug(name):
+    slug = name.lower().replace("'", "")
+    slug = re.sub(r"[^a-z0-9]+", "_", slug)
+    return slug.strip("_")
+
 
 def main():
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    csv_file = os.path.join(base_dir, "MyEBirdData.csv")
-    out_file = os.path.join(base_dir, "../web/data/dex.json")
+    repo_root = Path(__file__).resolve().parents[1]
+    csv_file = repo_root / "MyEBirdData.csv"
+    out_file = repo_root / "web" / "data" / "dex.json"
+    first_sightings = {}
 
-    sightings = {}
+    with csv_file.open("r", encoding="utf-8-sig", newline="") as file:
+        reader = csv.DictReader(file)
+        required_fields = {"Common Name", "Scientific Name", "Date", "Location"}
+        missing_fields = required_fields - set(reader.fieldnames or [])
+        if missing_fields:
+            raise ValueError(f"Missing required CSV fields: {', '.join(sorted(missing_fields))}")
 
-    if not os.path.exists(csv_file):
-        print(f"File not found: {csv_file}")
-        return
-
-    with open(csv_file, 'r', encoding='utf-8') as f:
-        reader = csv.DictReader(f)
         for row in reader:
-            name = row.get("Common Name", "")
+            name = row.get("Common Name", "").strip()
             if not name:
                 continue
 
-            date_str = row.get("Date", "")
-            dt = parse_date(date_str)
+            sighting_date = parse_date(row.get("Date", "").strip())
+            if name not in first_sightings or sighting_date < first_sightings[name]["date"]:
+                first_sightings[name] = {"date": sighting_date, "row": row}
 
-            if name not in sightings:
-                sightings[name] = {
-                    "row": row,
-                    "dt": dt
-                }
-            else:
-                if dt < sightings[name]["dt"]:
-                    sightings[name] = {
-                        "row": row,
-                        "dt": dt
-                    }
-
-    # Sort sightings by earliest date first
-    sorted_sightings = sorted(sightings.values(), key=lambda x: x["dt"])
-
-    dex_data = []
-    count = 1
-    for sighting in sorted_sightings:
-        if count > 24:
-            break
-
+    dex_entries = []
+    for index, sighting in enumerate(first_sightings.values(), start=1):
         row = sighting["row"]
-        name = row.get("Common Name", "")
-        scientific = row.get("Scientific Name", "")
-        date_str = row.get("Date", "")
-        location = row.get("Location", "")
+        name = row["Common Name"].strip()
+        sighting_date = sighting["date"]
+        formatted_date = row.get("Date", "").strip()
+        if sighting_date != datetime.max:
+            formatted_date = sighting_date.strftime("%Y-%m-%d")
 
-        # Ensure spaces and hyphens are converted to lowercase underscores
-        sprite_name = name.lower().replace(' ', '_').replace('-', '_').replace('\'', '')
-        sprite_path = f"/assets/icons/icon_{sprite_name}.png"
+        slug = image_slug(name)
+        dex_entries.append(
+            {
+                "id": f"{index:03d}",
+                "name": name,
+                "scientific": row.get("Scientific Name", "").strip(),
+                "date": formatted_date,
+                "location": row.get("Location", "").strip(),
+                "bio": BIOS.get(name, "A mysterious feathered friend waiting for its Pokédex legend."),
+                "icon_path": f"assets/icons/icon_{slug}.png",
+                "full_path": f"assets/full/full_{slug}.png",
+                "is_unlocked": True,
+            }
+        )
 
-        # ID is 3 digits padded with zeros
-        bird_id = f"{count:03d}"
+    out_file.parent.mkdir(parents=True, exist_ok=True)
+    with out_file.open("w", encoding="utf-8") as file:
+        json.dump(dex_entries, file, indent=2)
+        file.write("\n")
 
-        # Format date back to YYYY-MM-DD
-        formatted_date = sighting["dt"].strftime("%Y-%m-%d") if sighting["dt"] != datetime.max else date_str
-
-        bird_data = {
-            "id": bird_id,
-            "name": name,
-            "scientific": scientific,
-            "date": formatted_date,
-            "location": location,
-            "sprite": sprite_path,
-            "is_unlocked": True
-        }
-
-        dex_data.append(bird_data)
-        count += 1
-
-    os.makedirs(os.path.dirname(out_file), exist_ok=True)
-    with open(out_file, 'w', encoding='utf-8') as f:
-        json.dump(dex_data, f, indent=2)
 
 if __name__ == "__main__":
     main()
