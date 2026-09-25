@@ -1,10 +1,16 @@
 const TOTAL_BIRDS = 24;
+const STORAGE_KEY = "birb-home-region-collection";
 
 const grid = document.getElementById("pokedex-grid");
 const caughtCounter = document.getElementById("caught-counter");
 const totalCounter = document.getElementById("total-counter");
 const loadingMessage = document.getElementById("loading-message");
 const resultMessage = document.getElementById("result-message");
+const questContent = document.getElementById("quest-content");
+const questProgressLabel = document.getElementById("quest-progress-label");
+const questProgressPercent = document.getElementById("quest-progress-percent");
+const questProgressBar = document.getElementById("quest-progress-bar");
+const questLevel = document.getElementById("quest-level");
 const searchInput = document.getElementById("search-input");
 const habitatFilter = document.getElementById("habitat-filter");
 const rarityFilter = document.getElementById("rarity-filter");
@@ -23,6 +29,84 @@ const modalHabitat = document.getElementById("modal-habitat");
 const modalRarity = document.getElementById("modal-rarity");
 
 let allBirds = [];
+let collectedBirdIds = new Set();
+
+function loadCollection() {
+    try {
+        const savedCollection = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        collectedBirdIds = new Set(Array.isArray(savedCollection) ? savedCollection : []);
+    } catch {
+        collectedBirdIds = new Set();
+    }
+}
+
+function saveCollection() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([...collectedBirdIds]));
+}
+
+function updateCollectionState() {
+    allBirds.forEach((bird) => {
+        bird.is_unlocked = collectedBirdIds.has(bird.id);
+    });
+}
+
+function getQuestBird() {
+    return allBirds.find((bird) => !bird.is_unlocked);
+}
+
+function getLevel(collectedCount) {
+    return Math.floor(collectedCount / 3) + 1;
+}
+
+function renderQuest() {
+    const collectedCount = collectedBirdIds.size;
+    const total = allBirds.length;
+    const percentage = total === 0 ? 0 : Math.round((collectedCount / total) * 100);
+    const questBird = getQuestBird();
+
+    questProgressLabel.textContent = `${collectedCount} / ${total} discovered`;
+    questProgressPercent.textContent = `${percentage}%`;
+    questProgressBar.style.width = `${percentage}%`;
+    questLevel.textContent = `LEVEL ${String(getLevel(collectedCount)).padStart(2, "0")}`;
+
+    if (!questBird) {
+        questContent.innerHTML = `
+            <div class="quest-complete">
+                <p class="quest-kicker">REGION MASTERED</p>
+                <h2>You completed the collection!</h2>
+                <p>Every bird in your home region has been discovered. Keep exploring to spot them all again.</p>
+            </div>
+        `;
+        return;
+    }
+
+    questContent.innerHTML = `
+        <div class="mystery-card">
+            <div class="mystery-art">
+                <img src="${questBird.icon_path}" alt="Mystery bird silhouette">
+                <span class="mystery-number">NO. ${questBird.id}</span>
+            </div>
+            <div class="mystery-copy">
+                <p class="quest-kicker">MISSING FROM YOUR DEX</p>
+                <h2>Who’s that bird?</h2>
+                <p class="mystery-rarity">${questBird.rarity} challenge</p>
+                <p class="mystery-clue">Look for it around ${questBird.habitat.toLowerCase()}.</p>
+                <button id="spotted-button" class="spotted-button" type="button">I spotted this bird!</button>
+            </div>
+        </div>
+    `;
+    document.getElementById("spotted-button").addEventListener("click", () => collectBird(questBird));
+}
+
+function collectBird(bird) {
+    collectedBirdIds.add(bird.id);
+    saveCollection();
+    updateCollectionState();
+    caughtCounter.textContent = collectedBirdIds.size;
+    renderQuest();
+    renderFilteredBirds();
+    openModal(bird);
+}
 
 function displayValue(value, fallback = "???") {
     return value || fallback;
@@ -147,6 +231,8 @@ async function loadDex() {
         }
 
         allBirds = await response.json();
+        loadCollection();
+        updateCollectionState();
         const caught = allBirds.filter((bird) => bird.is_unlocked).length;
         const habitats = new Set(allBirds.map((bird) => bird.habitat).filter(Boolean));
         const rarities = new Set(allBirds.map((bird) => bird.rarity).filter(Boolean));
@@ -156,6 +242,7 @@ async function loadDex() {
         loadingMessage.hidden = true;
         caughtCounter.textContent = `${caught}`;
         totalCounter.textContent = `${TOTAL_BIRDS}`;
+        renderQuest();
         renderFilteredBirds();
     } catch (error) {
         console.error(error);

@@ -151,7 +151,7 @@ def main():
                 "bio": BIOS.get(name, "A mysterious feathered friend waiting for its Pokédex legend."),
                 "icon_path": f"assets/icons/icon_{slug}.png",
                 "full_path": f"assets/full/full_{slug}.png",
-                "is_unlocked": True,
+                "is_unlocked": False,
             }
         )
 

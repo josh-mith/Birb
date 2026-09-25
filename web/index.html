@@ -27,6 +27,24 @@
         </header>
 
         <main class="screen" aria-label="Bird Pokédex">
+            <section class="quest-panel" aria-labelledby="quest-title">
+                <div class="quest-header">
+                    <div>
+                        <p class="eyebrow dark-eyebrow">FIELD QUEST</p>
+                        <h1 id="quest-title">Home Region Hunt</h1>
+                    </div>
+                    <p class="quest-level" id="quest-level">LEVEL 01</p>
+                </div>
+                <div class="quest-progress-copy">
+                    <span id="quest-progress-label">0 / 24 discovered</span>
+                    <span id="quest-progress-percent">0%</span>
+                </div>
+                <div class="progress-track" aria-hidden="true">
+                    <div id="quest-progress-bar" class="progress-bar"></div>
+                </div>
+                <div id="quest-content" class="quest-content"></div>
+            </section>
+
             <form class="dex-controls" role="search">
                 <label class="control-field" for="search-input">
                     <span>Search</span>

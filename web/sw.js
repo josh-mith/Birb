@@ -1,4 +1,4 @@
-const CACHE_NAME = "bird-pokedex-v1";
+const CACHE_NAME = "bird-pokedex-v2";
 
 const CORE_ASSETS = [
     "./",
