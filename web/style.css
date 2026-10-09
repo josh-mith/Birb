@@ -532,7 +532,96 @@ img {
     margin: 0;
 }
 
+.profile-row {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.profile-button {
+    padding: 6px 10px;
+    border: 2px solid #ffeb3b;
+    border-radius: 999px;
+    color: #ffeb3b;
+    background: transparent;
+    cursor: pointer;
+    font-size: 7px;
+}
+
+.profile-button.active {
+    color: var(--ink);
+    background: #ffeb3b;
+}
+
+.sync-panel {
+    margin-bottom: 14px;
+    padding: 10px;
+    border: 3px solid var(--ink);
+    border-radius: 12px;
+    background: rgba(255, 248, 232, 0.8);
+}
+
+.sync-panel summary {
+    cursor: pointer;
+    font-size: 8px;
+}
+
+.sync-body {
+    margin-top: 10px;
+    display: grid;
+    gap: 10px;
+}
+
+.drop-zone {
+    padding: 14px;
+    border: 3px dashed var(--slate);
+    border-radius: 10px;
+    background: var(--off-white);
+    text-align: center;
+}
+
+.drop-zone.dragging {
+    border-color: var(--dex-red);
+    background: #ffe9e8;
+}
+
+.file-label {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 8px 12px;
+    border: 3px solid var(--ink);
+    border-radius: 8px;
+    background: #ffeb3b;
+    cursor: pointer;
+}
+
+.sync-hint {
+    font-size: 7px;
+}
+
+.api-row {
+    display: grid;
+    gap: 10px;
+}
+
+.api-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.sync-button {
+    margin-top: 0;
+    flex: 1;
+}
+
+#import-status.error {
+    color: var(--dex-red-dark);
+}
+
 @media (min-width: 620px) {
+    .api-row {
+        grid-template-columns: 1.4fr 1fr;
+    }
     body {
         padding: 28px;
     }

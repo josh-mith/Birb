@@ -107,9 +107,31 @@ def image_slug(name):
     return slug.strip("_")
 
 
+def stable_code(name, scientific=""):
+    # Stable across runs: prefer scientific-name slug, fall back to common-name slug.
+    # eBird CSVs don't include speciesCode, so this is our stable key (survives reordering).
+    base = scientific or name
+    slug = base.lower().replace("'", "")
+    slug = re.sub(r"[^a-z0-9]+", "_", slug).strip("_")
+    return slug or image_slug(name)
+
+
+def guess_habitat(name):
+    return HABITATS.get(name, "Unknown Habitat")
+
+
+def guess_rarity(name):
+    return RARITIES.get(name, "Common")
+
+
+def guess_bio(name):
+    return BIOS.get(name, "A mysterious feathered friend waiting for its Pokédex legend.")
+
+
 def main():
     repo_root = Path(__file__).resolve().parents[1]
-    csv_file = repo_root / "MyEBirdData.csv"
+    candidates = [repo_root / "MyEBirdData.csv", Path(__file__).resolve().parent / "MyEBirdData.csv"]
+    csv_file = next((p for p in candidates if p.exists()), candidates[0])
     out_file = repo_root / "web" / "data" / "dex.json"
     first_sightings = {}
 
@@ -129,29 +151,36 @@ def main():
             if name not in first_sightings or sighting_date < first_sightings[name]["date"]:
                 first_sightings[name] = {"date": sighting_date, "row": row}
 
+    # Deterministic order: earliest sighting first, then name. Display numbers
+    # (num) follow this order, but `code`/`id` stay stable across re-runs.
+    ordered = sorted(first_sightings.values(), key=lambda s: (s["date"], s["row"].get("Common Name", "")))
     dex_entries = []
-    for index, sighting in enumerate(first_sightings.values(), start=1):
+    for index, sighting in enumerate(ordered, start=1):
         row = sighting["row"]
         name = row["Common Name"].strip()
+        scientific = row.get("Scientific Name", "").strip()
         sighting_date = sighting["date"]
         formatted_date = row.get("Date", "").strip()
         if sighting_date != datetime.max:
             formatted_date = sighting_date.strftime("%Y-%m-%d")
 
         slug = image_slug(name)
+        code = stable_code(name, scientific)
         dex_entries.append(
             {
-                "id": f"{index:03d}",
+                "id": code,
+                "code": code,
+                "num": f"{index:03d}",
                 "name": name,
-                "scientific": row.get("Scientific Name", "").strip(),
+                "scientific": scientific,
                 "date": formatted_date,
                 "location": row.get("Location", "").strip(),
-                "habitat": HABITATS.get(name, "Unknown Habitat"),
-                "rarity": RARITIES.get(name, "Common"),
-                "bio": BIOS.get(name, "A mysterious feathered friend waiting for its Pokédex legend."),
+                "habitat": guess_habitat(name),
+                "rarity": guess_rarity(name),
+                "bio": guess_bio(name),
                 "icon_path": f"assets/icons/icon_{slug}.png",
                 "full_path": f"assets/full/full_{slug}.png",
-                "is_unlocked": False,
+                "is_unlocked": True,
             }
         )
 
@@ -159,6 +188,7 @@ def main():
     with out_file.open("w", encoding="utf-8") as file:
         json.dump(dex_entries, file, indent=2)
         file.write("\n")
+    print(f"Wrote {len(dex_entries)} entries from {csv_file} -> {out_file}")
 
 
 if __name__ == "__main__":

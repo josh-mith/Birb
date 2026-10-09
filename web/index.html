@@ -22,6 +22,7 @@
             <div>
                 <p class="eyebrow">BIRB</p>
                 <p class="dedication">Mother's Day Edition</p>
+                <div id="profile-buttons" class="profile-row" role="group" aria-label="Profile"></div>
             </div>
             <p class="counter">DISCOVERED: <span id="caught-counter">0</span> / <span id="total-counter">24</span></p>
         </header>
@@ -31,7 +32,7 @@
                 <div class="quest-header">
                     <div>
                         <p class="eyebrow dark-eyebrow">FIELD QUEST</p>
-                        <h1 id="quest-title">Home Region Hunt</h1>
+                        <h1 id="quest-title">Travis County Hunt</h1>
                     </div>
                     <p class="quest-level" id="quest-level">LEVEL 01</p>
                 </div>
@@ -43,6 +44,35 @@
                     <div id="quest-progress-bar" class="progress-bar"></div>
                 </div>
                 <div id="quest-content" class="quest-content"></div>
+            </section>
+
+            <section class="sync-panel" aria-labelledby="sync-title">
+                <details>
+                    <summary id="sync-title">Sync sightings (CSV / eBird)</summary>
+                    <div class="sync-body">
+                        <div id="drop-zone" class="drop-zone" tabindex="0" role="button" aria-label="Drop eBird CSV here">
+                            <p><strong>Drop MyEBirdData.csv here</strong> or</p>
+                            <label class="file-label" for="csv-input">Choose CSV file</label>
+                            <input id="csv-input" type="file" accept=".csv,text/csv" hidden>
+                            <p class="sync-hint"><a href="https://ebird.org/downloadMyData" target="_blank" rel="noopener">Get it at ebird.org/downloadMyData</a></p>
+                        </div>
+                        <div class="api-row">
+                            <label class="control-field" for="ebird-key">
+                                <span>eBird API key (stored in this browser only)</span>
+                                <input id="ebird-key" type="password" autocomplete="off" placeholder="xxxxxx">
+                            </label>
+                            <label class="control-field" for="ebird-region">
+                                <span>Region (e.g. US-TX-453)</span>
+                                <input id="ebird-region" type="text" autocomplete="off" placeholder="US-TX-453">
+                            </label>
+                        </div>
+                        <div class="api-actions">
+                            <button id="save-key-button" class="clear-button" type="button">Save key</button>
+                            <button id="sync-button" class="spotted-button sync-button" type="button">Sync from eBird</button>
+                        </div>
+                        <p id="import-status" class="result-message" aria-live="polite"></p>
+                    </div>
+                </details>
             </section>
 
             <form class="dex-controls" role="search">
