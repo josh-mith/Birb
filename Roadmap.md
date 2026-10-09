@@ -3,10 +3,11 @@
 Vision (from interview 2026-10-09): gamify any birder's eBird history as a Pokédex.
 Keep current game feel: LEVEL = floor(count/3)+1, FIELD QUEST silhouette ("Who's that bird?"), habitat/rarity badges, localStorage collection.
 
-## Where we're at
-- Static PWA works locally: `web/index.html` + `app.js` + `data/dex.json` + `data/travis-county.json` + `sw.js` (Mother's Day Edition, 24 Travis County birds).
-- Pipeline is fully manual: download `MyEBirdData.csv` → run `scripts/parse_ebird.py` by hand. BIOS/HABITATS/RARITIES are hardcoded for 24 birds.
-- `sw.js` precaches all 48 PNGs (`CACHE_NAME bird-pokedex-v3`). Won't scale to 2322 images.
+## Where we're at (v1 done, Phase-1 cleanup done)
+- Static PWA works locally: `web/index.html` + `app.js` + `data/all-birds.json` + `data/user-sightings.json` + `sw.js` (56 Travis County birds: 24 sighted + 32 silhouettes).
+- Pipeline: `python scripts/parse_ebird.py --input MyEBirdData.csv --out web/data/` builds the split model + legacy `dex.json` (deprecated) and warns on missing artwork (`--strict` to fail, `--no-legacy` to skip).
+- In-app CSV drag-drop + BYO eBird key sync (`X-eBirdApiToken`, default region `US-TX-453`) + Me/Partner profile toggle all client-side, no backend.
+- `sw.js` (v5 shell) precaches shell + JSON + SVGs only; bird PNGs runtime-cache (300 cap). BIOS/HABITATS/RARITIES still hardcoded for the original 24 — unknown species fall back to generic meta.
 
 ## Phase 1 — Automate pipeline (unblock everything else)
 1. Make `parse_ebird.py` generic: fallback bio/habitat/rarity for unknown species, stable IDs (eBird species code, not `001..024` enumeration), merge `dex.json` + `travis-county.json` into one `all-birds.json` + `user-sightings.json` split.

@@ -580,22 +580,42 @@ async function syncEBird() {
     }
 }
 
+async function fetchJSON(path) {
+    const res = await fetch(path);
+    if (!res.ok) throw new Error(`Unable to load ${path}: ${res.status}`);
+    return res.json();
+}
+
 async function loadDex() {
     try {
         loadingMessage.hidden = false;
-        const response = await fetch("data/dex.json");
-        if (!response.ok) {
-            throw new Error(`Unable to load dex.json: ${response.status}`);
+        // Preferred split model: all-birds.json (species catalog) +
+        // user-sightings.json (first-seen records). Falls back to legacy
+        // dex.json + travis-county.json when the split files are absent.
+        let catalog = null;
+        try {
+            const [birds, sightings] = await Promise.all([
+                fetchJSON("data/all-birds.json"),
+                fetchJSON("data/user-sightings.json"),
+            ]);
+            const seenByCode = new Map(sightings.map((s) => [s.code, s]));
+            catalog = birds.map((b) => {
+                const s = seenByCode.get(birdKey(b));
+                return {
+                    ...b,
+                    date: s?.date || "",
+                    location: s?.location || "Travis County, TX",
+                    is_unlocked: Boolean(s),
+                };
+            });
+        } catch {
+            const [discoveredBirds, regionalBirds] = await Promise.all([
+                fetchJSON("data/dex.json"),
+                fetchJSON("data/travis-county.json"),
+            ]);
+            catalog = [...discoveredBirds, ...regionalBirds];
         }
-
-        const regionalResponse = await fetch("data/travis-county.json");
-        if (!regionalResponse.ok) {
-            throw new Error(`Unable to load travis-county.json: ${regionalResponse.status}`);
-        }
-
-        const discoveredBirds = await response.json();
-        const regionalBirds = await regionalResponse.json();
-        window.__birbStatic = [...discoveredBirds, ...regionalBirds];
+        window.__birbStatic = catalog;
         loadCustom();
         const seen = new Set(window.__birbStatic.map(birdKey));
         allBirds = [...window.__birbStatic];

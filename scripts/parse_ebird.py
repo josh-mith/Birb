@@ -1,6 +1,8 @@
+import argparse
 import csv
 import json
 import re
+import sys
 from datetime import datetime
 from pathlib import Path
 
@@ -128,11 +130,57 @@ def guess_bio(name):
     return BIOS.get(name, "A mysterious feathered friend waiting for its Pokédex legend.")
 
 
-def main():
+def build_parser():
     repo_root = Path(__file__).resolve().parents[1]
-    candidates = [repo_root / "MyEBirdData.csv", Path(__file__).resolve().parent / "MyEBirdData.csv"]
-    csv_file = next((p for p in candidates if p.exists()), candidates[0])
-    out_file = repo_root / "web" / "data" / "dex.json"
+    default_csv = repo_root / "MyEBirdData.csv"
+    if not default_csv.exists():
+        alt = Path(__file__).resolve().parent / "MyEBirdData.csv"
+        if alt.exists():
+            default_csv = alt
+    p = argparse.ArgumentParser(description="Build birb PWA data files from an eBird CSV export.")
+    p.add_argument("--input", default=str(default_csv), help="Path to MyEBirdData.csv")
+    p.add_argument("--out", default=str(repo_root / "web" / "data"), help="Output directory for JSON files")
+    p.add_argument(
+        "--regional",
+        default=str(repo_root / "web" / "data" / "travis-county.json"),
+        help="Regional undiscovered-species catalog to merge into all-birds.json",
+    )
+    p.add_argument("--no-check-images", action="store_true", help="Skip missing-artwork warnings")
+    p.add_argument("--strict", action="store_true", help="Exit non-zero if artwork is missing")
+    p.add_argument("--no-legacy", action="store_true", help="Skip writing legacy dex.json")
+    return p
+
+
+def check_images(entries, web_dir, strict=False):
+    missing = []
+    for e in entries:
+        for key in ("icon_path", "full_path"):
+            rel = e.get(key, "")
+            if not rel or rel.startswith("assets/silhouettes/"):
+                continue
+            if not (web_dir / rel).exists():
+                missing.append(f"{e.get('code')}: {rel}")
+    if missing:
+        print(f"WARNING: {len(missing)} artwork file(s) missing:", file=sys.stderr)
+        for m in missing[:20]:
+            print(f"  - {m}", file=sys.stderr)
+        if len(missing) > 20:
+            print(f"  ... and {len(missing) - 20} more", file=sys.stderr)
+        if strict:
+            raise SystemExit(f"strict: {len(missing)} missing artwork file(s)")
+    else:
+        print("Artwork check: all icon/full files present (silhouette fallbacks excluded).")
+    return missing
+
+
+def main(argv=None):
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    repo_root = Path(__file__).resolve().parents[1]
+    csv_file = Path(args.input)
+    out_dir = Path(args.out)
+    regional_file = Path(args.regional)
+    web_dir = repo_root / "web"
     first_sightings = {}
 
     with csv_file.open("r", encoding="utf-8-sig", newline="") as file:
@@ -154,8 +202,9 @@ def main():
     # Deterministic order: earliest sighting first, then name. Display numbers
     # (num) follow this order, but `code`/`id` stay stable across re-runs.
     ordered = sorted(first_sightings.values(), key=lambda s: (s["date"], s["row"].get("Common Name", "")))
-    dex_entries = []
-    for index, sighting in enumerate(ordered, start=1):
+    sightings = []
+    catalog_by_code = {}
+    for sighting in ordered:
         row = sighting["row"]
         name = row["Common Name"].strip()
         scientific = row.get("Scientific Name", "").strip()
@@ -166,29 +215,96 @@ def main():
 
         slug = image_slug(name)
         code = stable_code(name, scientific)
-        dex_entries.append(
+        sightings.append(
             {
-                "id": code,
                 "code": code,
-                "num": f"{index:03d}",
                 "name": name,
                 "scientific": scientific,
                 "date": formatted_date,
                 "location": row.get("Location", "").strip(),
-                "habitat": guess_habitat(name),
-                "rarity": guess_rarity(name),
-                "bio": guess_bio(name),
-                "icon_path": f"assets/icons/icon_{slug}.png",
-                "full_path": f"assets/full/full_{slug}.png",
-                "is_unlocked": True,
             }
         )
+        catalog_by_code[code] = {
+            "id": code,
+            "code": code,
+            "name": name,
+            "scientific": scientific,
+            "habitat": guess_habitat(name),
+            "rarity": guess_rarity(name),
+            "bio": guess_bio(name),
+            "icon_path": f"assets/icons/icon_{slug}.png",
+            "full_path": f"assets/full/full_{slug}.png",
+        }
 
-    out_file.parent.mkdir(parents=True, exist_ok=True)
-    with out_file.open("w", encoding="utf-8") as file:
-        json.dump(dex_entries, file, indent=2)
+    # Merge regional undiscovered-species catalog (hand-curated) so all-birds.json
+    # is the single species catalog. Regional file already uses stable code ids.
+    regional_count = 0
+    if regional_file.exists():
+        try:
+            regional = json.loads(regional_file.read_text(encoding="utf-8"))
+            for entry in regional if isinstance(regional, list) else []:
+                code = entry.get("code") or stable_code(entry.get("name", ""), entry.get("scientific", ""))
+                if code not in catalog_by_code:
+                    catalog_by_code[code] = {
+                        "id": code,
+                        "code": code,
+                        "name": entry.get("name", ""),
+                        "scientific": entry.get("scientific", ""),
+                        "habitat": entry.get("habitat", "Unknown Habitat"),
+                        "rarity": entry.get("rarity", "Common"),
+                        "bio": entry.get("bio", guess_bio(entry.get("name", ""))),
+                        "icon_path": entry.get("icon_path", "assets/silhouettes/songbird.svg"),
+                        "full_path": entry.get("full_path", "assets/silhouettes/songbird.svg"),
+                    }
+                    regional_count += 1
+        except (json.JSONDecodeError, OSError) as exc:
+            print(f"WARNING: could not read regional file {regional_file}: {exc}", file=sys.stderr)
+
+    # Assign display numbers: sighted species first (by earliest date), then regional extras by name.
+    all_birds = []
+    for index, s in enumerate(sightings, start=1):
+        entry = dict(catalog_by_code[s["code"]])
+        entry["num"] = f"{index:03d}"
+        all_birds.append(entry)
+    extras = sorted(
+        (c for code, c in catalog_by_code.items() if code not in {s["code"] for s in sightings}),
+        key=lambda c: c["name"],
+    )
+    for offset, entry in enumerate(extras, start=len(sightings) + 1):
+        row = dict(entry)
+        row["num"] = f"{offset:03d}"
+        all_birds.append(row)
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+    all_birds_file = out_dir / "all-birds.json"
+    sightings_file = out_dir / "user-sightings.json"
+    with all_birds_file.open("w", encoding="utf-8") as file:
+        json.dump(all_birds, file, indent=2)
         file.write("\n")
-    print(f"Wrote {len(dex_entries)} entries from {csv_file} -> {out_file}")
+    with sightings_file.open("w", encoding="utf-8") as file:
+        json.dump(sightings, file, indent=2)
+        file.write("\n")
+    print(f"Wrote {len(all_birds)} species ({len(sightings)} sighted + {regional_count} regional) -> {all_birds_file}")
+    print(f"Wrote {len(sightings)} sightings from {csv_file} -> {sightings_file}")
+
+    if not args.no_legacy:
+        legacy = []
+        sighted_codes = {s["code"] for s in sightings}
+        sight_by_code = {s["code"]: s for s in sightings}
+        for entry in all_birds:
+            row = dict(entry)
+            s = sight_by_code.get(entry["code"])
+            row["date"] = s["date"] if s else ""
+            row["location"] = s["location"] if s else "Travis County, TX"
+            row["is_unlocked"] = entry["code"] in sighted_codes
+            legacy.append(row)
+        with (out_dir / "dex.json").open("w", encoding="utf-8") as file:
+            json.dump(legacy, file, indent=2)
+            file.write("\n")
+        print(f"Wrote legacy {len(legacy)} entries -> {out_dir / 'dex.json'} (deprecated: prefer all-birds.json)")
+
+    if not args.no_check_images:
+        check_images(all_birds, web_dir, strict=args.strict)
 
 
 if __name__ == "__main__":

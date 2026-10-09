@@ -1,4 +1,4 @@
-const CACHE_NAME = "bird-pokedex-v4";
+const CACHE_NAME = "bird-pokedex-v5";
 const IMAGE_CACHE = "bird-pokedex-images-v4";
 const IMAGE_CACHE_LIMIT = 300;
 
@@ -11,6 +11,8 @@ const CORE_ASSETS = [
     "app.js",
     "manifest.json",
     "data/dex.json",
+    "data/all-birds.json",
+    "data/user-sightings.json",
     "data/travis-county.json",
     "assets/icons/icon_unknown_bird.svg",
     "assets/silhouettes/songbird.svg",
