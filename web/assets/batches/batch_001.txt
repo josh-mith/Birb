@@ -1,0 +1,141 @@
+BIRB SPRITE BATCH 001 — 32 species, 2 images each
+
+STYLE LOCK (apply to every sprite this session):
+16-bit era monster-collector game sprite, clean pixel clusters, limited
+palette, bold 2px dark outline, side 3/4 view facing left, single bird only,
+no text, no watermark, no background scenery for ICONS (transparent background),
+simple themed habitat vignette for FULL portraits. Match the look of the
+reference: chunky readable silhouette, big expressive eye highlight, vibrant
+but natural plumage colors. Square canvas. PNG output.
+
+Per-species prompts (one ICON + one FULL per species):
+
+## American Kestrel (Falco sparverius)
+ICON: ICON, 512x512, transparent background. American Kestrel, Falco sparverius game sprite. Key field marks true to life. Lives in Open Country / Fields. Save as icon_american_kestrel.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. American Kestrel, Falco sparverius, same individual as the icon, pose showing full body and tail. Lives in Open Country / Fields. Save as full_american_kestrel.png
+
+## Barn Swallow (Hirundo rustica)
+ICON: ICON, 512x512, transparent background. Barn Swallow, Hirundo rustica game sprite. Key field marks true to life. Lives in Open Country / Lakeside. Save as icon_barn_swallow.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Barn Swallow, Hirundo rustica, same individual as the icon, pose showing full body and tail. Lives in Open Country / Lakeside. Save as full_barn_swallow.png
+
+## Belted Kingfisher (Megaceryle alcyon)
+ICON: ICON, 512x512, transparent background. Belted Kingfisher, Megaceryle alcyon game sprite. Key field marks true to life. Lives in Lakeside / Wetland. Save as icon_belted_kingfisher.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Belted Kingfisher, Megaceryle alcyon, same individual as the icon, pose showing full body and tail. Lives in Lakeside / Wetland. Save as full_belted_kingfisher.png
+
+## Black-chinned Hummingbird (Archilochus alexandri)
+ICON: ICON, 512x512, transparent background. Black-chinned Hummingbird, Archilochus alexandri game sprite. Key field marks true to life. Lives in Garden / Woodland Edge. Save as icon_black_chinned_hummingbird.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Black-chinned Hummingbird, Archilochus alexandri, same individual as the icon, pose showing full body and tail. Lives in Garden / Woodland Edge. Save as full_black_chinned_hummingbird.png
+
+## Black-crested Titmouse (Baeolophus atricristatus)
+ICON: ICON, 512x512, transparent background. Black-crested Titmouse, Baeolophus atricristatus game sprite. Key field marks true to life. Lives in Woodland / Brush. Save as icon_black_crested_titmouse.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Black-crested Titmouse, Baeolophus atricristatus, same individual as the icon, pose showing full body and tail. Lives in Woodland / Brush. Save as full_black_crested_titmouse.png
+
+## Blue Jay (Cyanocitta cristata)
+ICON: ICON, 512x512, transparent background. Blue Jay, Cyanocitta cristata game sprite. Key field marks true to life. Lives in Woodland / Urban. Save as icon_blue_jay.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Blue Jay, Cyanocitta cristata, same individual as the icon, pose showing full body and tail. Lives in Woodland / Urban. Save as full_blue_jay.png
+
+## Chimney Swift (Chaetura pelagica)
+ICON: ICON, 512x512, transparent background. Chimney Swift, Chaetura pelagica game sprite. Key field marks true to life. Lives in Urban / Open Sky. Save as icon_chimney_swift.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Chimney Swift, Chaetura pelagica, same individual as the icon, pose showing full body and tail. Lives in Urban / Open Sky. Save as full_chimney_swift.png
+
+## Common Yellowthroat (Geothlypis trichas)
+ICON: ICON, 512x512, transparent background. Common Yellowthroat, Geothlypis trichas game sprite. Key field marks true to life. Lives in Wetland / Thicket. Save as icon_common_yellowthroat.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Common Yellowthroat, Geothlypis trichas, same individual as the icon, pose showing full body and tail. Lives in Wetland / Thicket. Save as full_common_yellowthroat.png
+
+## Crested Caracara (Caracara cheriway)
+ICON: ICON, 512x512, transparent background. Crested Caracara, Caracara cheriway game sprite. Key field marks true to life. Lives in Open Country. Save as icon_crested_caracara.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Crested Caracara, Caracara cheriway, same individual as the icon, pose showing full body and tail. Lives in Open Country. Save as full_crested_caracara.png
+
+## Downy Woodpecker (Dryobates pubescens)
+ICON: ICON, 512x512, transparent background. Downy Woodpecker, Dryobates pubescens game sprite. Key field marks true to life. Lives in Woodland. Save as icon_downy_woodpecker.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Downy Woodpecker, Dryobates pubescens, same individual as the icon, pose showing full body and tail. Lives in Woodland. Save as full_downy_woodpecker.png
+
+## Eastern Bluebird (Sialia sialis)
+ICON: ICON, 512x512, transparent background. Eastern Bluebird, Sialia sialis game sprite. Key field marks true to life. Lives in Fields / Orchard. Save as icon_eastern_bluebird.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Eastern Bluebird, Sialia sialis, same individual as the icon, pose showing full body and tail. Lives in Fields / Orchard. Save as full_eastern_bluebird.png
+
+## Eastern Phoebe (Sayornis phoebe)
+ICON: ICON, 512x512, transparent background. Eastern Phoebe, Sayornis phoebe game sprite. Key field marks true to life. Lives in Open Woodland / Urban. Save as icon_eastern_phoebe.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Eastern Phoebe, Sayornis phoebe, same individual as the icon, pose showing full body and tail. Lives in Open Woodland / Urban. Save as full_eastern_phoebe.png
+
+## European Starling (Sturnus vulgaris)
+ICON: ICON, 512x512, transparent background. European Starling, Sturnus vulgaris game sprite. Key field marks true to life. Lives in Urban / Fields. Save as icon_european_starling.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. European Starling, Sturnus vulgaris, same individual as the icon, pose showing full body and tail. Lives in Urban / Fields. Save as full_european_starling.png
+
+## Great Blue Heron (Ardea herodias)
+ICON: ICON, 512x512, transparent background. Great Blue Heron, Ardea herodias game sprite. Key field marks true to life. Lives in Wetland / Lakeside. Save as icon_great_blue_heron.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Great Blue Heron, Ardea herodias, same individual as the icon, pose showing full body and tail. Lives in Wetland / Lakeside. Save as full_great_blue_heron.png
+
+## Great Egret (Ardea alba)
+ICON: ICON, 512x512, transparent background. Great Egret, Ardea alba game sprite. Key field marks true to life. Lives in Wetland / Lakeside. Save as icon_great_egret.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Great Egret, Ardea alba, same individual as the icon, pose showing full body and tail. Lives in Wetland / Lakeside. Save as full_great_egret.png
+
+## Great-tailed Grackle (Quiscalus mexicanus)
+ICON: ICON, 512x512, transparent background. Great-tailed Grackle, Quiscalus mexicanus game sprite. Key field marks true to life. Lives in Urban / Open Country. Save as icon_great_tailed_grackle.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Great-tailed Grackle, Quiscalus mexicanus, same individual as the icon, pose showing full body and tail. Lives in Urban / Open Country. Save as full_great_tailed_grackle.png
+
+## Ladder-backed Woodpecker (Dryobates scalaris)
+ICON: ICON, 512x512, transparent background. Ladder-backed Woodpecker, Dryobates scalaris game sprite. Key field marks true to life. Lives in Desert Scrub / Open Woodland. Save as icon_ladder_backed_woodpecker.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Ladder-backed Woodpecker, Dryobates scalaris, same individual as the icon, pose showing full body and tail. Lives in Desert Scrub / Open Woodland. Save as full_ladder_backed_woodpecker.png
+
+## Lincoln's Sparrow (Melospiza lincolnii)
+ICON: ICON, 512x512, transparent background. Lincoln's Sparrow, Melospiza lincolnii game sprite. Key field marks true to life. Lives in Brush / Wetland. Save as icon_lincolns_sparrow.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Lincoln's Sparrow, Melospiza lincolnii, same individual as the icon, pose showing full body and tail. Lives in Brush / Wetland. Save as full_lincolns_sparrow.png
+
+## Neotropic Cormorant (Nannopterum brasilianum)
+ICON: ICON, 512x512, transparent background. Neotropic Cormorant, Nannopterum brasilianum game sprite. Key field marks true to life. Lives in Lakeside / Wetland. Save as icon_neotropic_cormorant.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Neotropic Cormorant, Nannopterum brasilianum, same individual as the icon, pose showing full body and tail. Lives in Lakeside / Wetland. Save as full_neotropic_cormorant.png
+
+## Northern Mockingbird (Mimus polyglottos)
+ICON: ICON, 512x512, transparent background. Northern Mockingbird, Mimus polyglottos game sprite. Key field marks true to life. Lives in Urban / Brush. Save as icon_northern_mockingbird.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Northern Mockingbird, Mimus polyglottos, same individual as the icon, pose showing full body and tail. Lives in Urban / Brush. Save as full_northern_mockingbird.png
+
+## Orange-crowned Warbler (Leiothlypis celata)
+ICON: ICON, 512x512, transparent background. Orange-crowned Warbler, Leiothlypis celata game sprite. Key field marks true to life. Lives in Woodland Edge / Brush. Save as icon_orange_crowned_warbler.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Orange-crowned Warbler, Leiothlypis celata, same individual as the icon, pose showing full body and tail. Lives in Woodland Edge / Brush. Save as full_orange_crowned_warbler.png
+
+## Painted Bunting (Passerina ciris)
+ICON: ICON, 512x512, transparent background. Painted Bunting, Passerina ciris game sprite. Key field marks true to life. Lives in Brush / Grassland. Save as icon_painted_bunting.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Painted Bunting, Passerina ciris, same individual as the icon, pose showing full body and tail. Lives in Brush / Grassland. Save as full_painted_bunting.png
+
+## Pileated Woodpecker (Dryocopus pileatus)
+ICON: ICON, 512x512, transparent background. Pileated Woodpecker, Dryocopus pileatus game sprite. Key field marks true to life. Lives in Woodland. Save as icon_pileated_woodpecker.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Pileated Woodpecker, Dryocopus pileatus, same individual as the icon, pose showing full body and tail. Lives in Woodland. Save as full_pileated_woodpecker.png
+
+## Red-tailed Hawk (Buteo jamaicensis)
+ICON: ICON, 512x512, transparent background. Red-tailed Hawk, Buteo jamaicensis game sprite. Key field marks true to life. Lives in Open Country. Save as icon_red_tailed_hawk.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Red-tailed Hawk, Buteo jamaicensis, same individual as the icon, pose showing full body and tail. Lives in Open Country. Save as full_red_tailed_hawk.png
+
+## Red-winged Blackbird (Agelaius phoeniceus)
+ICON: ICON, 512x512, transparent background. Red-winged Blackbird, Agelaius phoeniceus game sprite. Key field marks true to life. Lives in Fields / Wetland. Save as icon_red_winged_blackbird.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Red-winged Blackbird, Agelaius phoeniceus, same individual as the icon, pose showing full body and tail. Lives in Fields / Wetland. Save as full_red_winged_blackbird.png
+
+## Ruby-crowned Kinglet (Corthylio calendula)
+ICON: ICON, 512x512, transparent background. Ruby-crowned Kinglet, Corthylio calendula game sprite. Key field marks true to life. Lives in Woodland. Save as icon_ruby_crowned_kinglet.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Ruby-crowned Kinglet, Corthylio calendula, same individual as the icon, pose showing full body and tail. Lives in Woodland. Save as full_ruby_crowned_kinglet.png
+
+## Scissor-tailed Flycatcher (Tyrannus forficatus)
+ICON: ICON, 512x512, transparent background. Scissor-tailed Flycatcher, Tyrannus forficatus game sprite. Key field marks true to life. Lives in Open Country. Save as icon_scissor_tailed_flycatcher.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Scissor-tailed Flycatcher, Tyrannus forficatus, same individual as the icon, pose showing full body and tail. Lives in Open Country. Save as full_scissor_tailed_flycatcher.png
+
+## Song Sparrow (Melospiza melodia)
+ICON: ICON, 512x512, transparent background. Song Sparrow, Melospiza melodia game sprite. Key field marks true to life. Lives in Brush / Wetland. Save as icon_song_sparrow.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Song Sparrow, Melospiza melodia, same individual as the icon, pose showing full body and tail. Lives in Brush / Wetland. Save as full_song_sparrow.png
+
+## Spotted Sandpiper (Actitis macularius)
+ICON: ICON, 512x512, transparent background. Spotted Sandpiper, Actitis macularius game sprite. Key field marks true to life. Lives in Lakeside / Wetland. Save as icon_spotted_sandpiper.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Spotted Sandpiper, Actitis macularius, same individual as the icon, pose showing full body and tail. Lives in Lakeside / Wetland. Save as full_spotted_sandpiper.png
+
+## Summer Tanager (Piranga rubra)
+ICON: ICON, 512x512, transparent background. Summer Tanager, Piranga rubra game sprite. Key field marks true to life. Lives in Woodland. Save as icon_summer_tanager.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Summer Tanager, Piranga rubra, same individual as the icon, pose showing full body and tail. Lives in Woodland. Save as full_summer_tanager.png
+
+## Vermilion Flycatcher (Pyrocephalus rubinus)
+ICON: ICON, 512x512, transparent background. Vermilion Flycatcher, Pyrocephalus rubinus game sprite. Key field marks true to life. Lives in Open Country / Lakeside. Save as icon_vermilion_flycatcher.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Vermilion Flycatcher, Pyrocephalus rubinus, same individual as the icon, pose showing full body and tail. Lives in Open Country / Lakeside. Save as full_vermilion_flycatcher.png
+
+## White Ibis (Eudocimus albus)
+ICON: ICON, 512x512, transparent background. White Ibis, Eudocimus albus game sprite. Key field marks true to life. Lives in Wetland. Save as icon_white_ibis.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. White Ibis, Eudocimus albus, same individual as the icon, pose showing full body and tail. Lives in Wetland. Save as full_white_ibis.png
+
+Filenames are exact (lowercase, underscores). Do not rename or number them.
