@@ -6,7 +6,9 @@ Keep current game feel: LEVEL = floor(count/3)+1, FIELD QUEST silhouette ("Who's
 ## Where we're at (v1 done, Phase-1 cleanup done)
 - Static PWA works locally: `web/index.html` + `app.js` + `data/all-birds.json` + `data/user-sightings.json` + `sw.js` (56 Travis County birds: 24 sighted + 32 silhouettes).
 - Pipeline: `python scripts/parse_ebird.py --input MyEBirdData.csv --out web/data/` builds the split model + legacy `dex.json` (deprecated) and warns on missing artwork (`--strict` to fail, `--no-legacy` to skip).
-- In-app CSV drag-drop + BYO eBird key sync (`X-eBirdApiToken`, default region `US-TX-453`) + Me/Partner profile toggle all client-side, no backend.
+- In-app CSV drag-drop + BYO eBird key sync (`X-eBirdApiToken`, default region `US-TX-453`) + Me/Partner/Team toggle (Team = union of both dexes) all client-side, no backend.
+- eBird interop: `speciesCode` aliases attached wherever known (parser `--taxonomy`, API `speciesCode` field, 7-day cached `/v2/ref/taxonomy/ebird` lookup). Primary codes stay scientific-slugs so existing saves keep working; migration also resolves old numeric and slug saves.
+- `scripts/fetch_taxonomy.py` (needs `EBIRD_API_KEY`) dumps `taxonomy.json` + `na-checklist.csv` — the Phase-2 starting point.
 - `sw.js` (v5 shell) precaches shell + JSON + SVGs only; bird PNGs runtime-cache (300 cap). BIOS/HABITATS/RARITIES still hardcoded for the original 24 — unknown species fall back to generic meta.
 
 ## Phase 1 — Automate pipeline (unblock everything else)

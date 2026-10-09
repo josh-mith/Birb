@@ -148,7 +148,32 @@ def build_parser():
     p.add_argument("--no-check-images", action="store_true", help="Skip missing-artwork warnings")
     p.add_argument("--strict", action="store_true", help="Exit non-zero if artwork is missing")
     p.add_argument("--no-legacy", action="store_true", help="Skip writing legacy dex.json")
+    p.add_argument(
+        "--taxonomy",
+        default=None,
+        help="Path to eBird taxonomy JSON (from scripts/fetch_taxonomy.py) to attach speciesCode aliases",
+    )
     return p
+
+
+def load_taxonomy_map(path):
+    """Map scientific/common names (lowercased) to eBird speciesCode."""
+    try:
+        raw = json.loads(Path(path).read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        print(f"WARNING: could not read taxonomy file {path}: {exc}", file=sys.stderr)
+        return {}
+    items = raw if isinstance(raw, list) else raw.get("taxonomy", raw.get("items", []))
+    mapping = {}
+    for t in items if isinstance(items, list) else []:
+        code = t.get("speciesCode") or t.get("species_code") or ""
+        if not code:
+            continue
+        for key in (t.get("sciName") or t.get("scientific") or "", t.get("comName") or t.get("name") or ""):
+            if key.strip():
+                mapping.setdefault(key.strip().lower(), code)
+    print(f"Taxonomy map: {len(mapping) // 2} species from {path}")
+    return mapping
 
 
 def check_images(entries, web_dir, strict=False):
@@ -181,6 +206,13 @@ def main(argv=None):
     out_dir = Path(args.out)
     regional_file = Path(args.regional)
     web_dir = repo_root / "web"
+    taxonomy_map = load_taxonomy_map(args.taxonomy) if args.taxonomy else {}
+
+    def species_code_for(name, scientific):
+        return taxonomy_map.get((scientific or "").strip().lower()) or taxonomy_map.get(
+            (name or "").strip().lower()
+        ) or ""
+
     first_sightings = {}
 
     with csv_file.open("r", encoding="utf-8-sig", newline="") as file:
@@ -215,15 +247,17 @@ def main(argv=None):
 
         slug = image_slug(name)
         code = stable_code(name, scientific)
-        sightings.append(
-            {
-                "code": code,
-                "name": name,
-                "scientific": scientific,
-                "date": formatted_date,
-                "location": row.get("Location", "").strip(),
-            }
-        )
+        species_code = species_code_for(name, scientific)
+        sighting = {
+            "code": code,
+            "name": name,
+            "scientific": scientific,
+            "date": formatted_date,
+            "location": row.get("Location", "").strip(),
+        }
+        if species_code:
+            sighting["speciesCode"] = species_code
+        sightings.append(sighting)
         catalog_by_code[code] = {
             "id": code,
             "code": code,
@@ -235,6 +269,8 @@ def main(argv=None):
             "icon_path": f"assets/icons/icon_{slug}.png",
             "full_path": f"assets/full/full_{slug}.png",
         }
+        if species_code:
+            catalog_by_code[code]["speciesCode"] = species_code
 
     # Merge regional undiscovered-species catalog (hand-curated) so all-birds.json
     # is the single species catalog. Regional file already uses stable code ids.
@@ -245,7 +281,7 @@ def main(argv=None):
             for entry in regional if isinstance(regional, list) else []:
                 code = entry.get("code") or stable_code(entry.get("name", ""), entry.get("scientific", ""))
                 if code not in catalog_by_code:
-                    catalog_by_code[code] = {
+                    row = {
                         "id": code,
                         "code": code,
                         "name": entry.get("name", ""),
@@ -256,7 +292,17 @@ def main(argv=None):
                         "icon_path": entry.get("icon_path", "assets/silhouettes/songbird.svg"),
                         "full_path": entry.get("full_path", "assets/silhouettes/songbird.svg"),
                     }
+                    sc = entry.get("speciesCode") or species_code_for(row["name"], row["scientific"])
+                    if sc:
+                        row["speciesCode"] = sc
+                    catalog_by_code[code] = row
                     regional_count += 1
+                elif taxonomy_map:
+                    sc = species_code_for(
+                        catalog_by_code[code]["name"], catalog_by_code[code]["scientific"]
+                    )
+                    if sc:
+                        catalog_by_code[code].setdefault("speciesCode", sc)
         except (json.JSONDecodeError, OSError) as exc:
             print(f"WARNING: could not read regional file {regional_file}: {exc}", file=sys.stderr)
 

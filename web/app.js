@@ -3,11 +3,15 @@ const LEGACY_STORAGE_KEY = "birb-travis-county-collection";
 const PROFILE_KEY = "birb-active-profile";
 const TOKEN_KEY = "birb-ebird-token";
 const REGION_KEY = "birb-ebird-region";
+const TAXONOMY_KEY = "birb-taxonomy";
+const TAXONOMY_TS_KEY = "birb-taxonomy-ts";
+const TAXONOMY_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 const DEFAULT_REGION = "US-TX-453";
 
 const PROFILES = [
     { id: "me", label: "Me" },
     { id: "partner", label: "Partner" },
+    { id: "team", label: "Team" },
 ];
 
 const grid = document.getElementById("pokedex-grid");
@@ -60,12 +64,16 @@ function displayNum(bird) {
     return bird.num || bird.id;
 }
 
-function collectionKey() {
-    return `birb-collection-${activeProfile}`;
+function isTeam() {
+    return activeProfile === "team";
 }
 
-function customKey() {
-    return `birb-custom-${activeProfile}`;
+function collectionKey(profile = activeProfile) {
+    return `birb-collection-${profile}`;
+}
+
+function customKey(profile = activeProfile) {
+    return `birb-custom-${profile}`;
 }
 
 function slugify(value) {
@@ -80,10 +88,27 @@ function stableCode(name, scientific) {
     return slugify(scientific || name) || slugify(name) || "unknown";
 }
 
+function readStoredList(key) {
+    try {
+        const saved = JSON.parse(localStorage.getItem(key) || "null");
+        return Array.isArray(saved) ? saved : null;
+    } catch {
+        return null;
+    }
+}
+
 function loadCollection(birds) {
     const numToCode = new Map();
     birds.forEach((b) => {
         if (b.num) numToCode.set(String(b.num), birdKey(b));
+    });
+    // Slug index lets old scientific-slug saves resolve even if a future
+    // catalog switches primary codes to eBird speciesCode.
+    const slugToCode = new Map();
+    birds.forEach((b) => {
+        slugToCode.set(slugify(b.scientific || b.name), birdKey(b));
+        const sc = (b.speciesCode || "").toLowerCase();
+        if (sc) slugToCode.set(sc, birdKey(b));
     });
     const migrate = (list) => {
         const out = new Set();
@@ -95,14 +120,31 @@ function loadCollection(birds) {
                 out.add(numToCode.get(s));
             } else if (numToCode.has(s.padStart(3, "0"))) {
                 out.add(numToCode.get(s.padStart(3, "0")));
+            } else if (slugToCode.has(s.toLowerCase())) {
+                out.add(slugToCode.get(s.toLowerCase()));
             }
         });
         return out;
     };
 
+    // Team view = union of Me + Partner collections (computed, not stored).
+    if (isTeam()) {
+        const union = new Set();
+        migrate(readStoredList(collectionKey("me")) || []).forEach((c) => union.add(c));
+        migrate(readStoredList(collectionKey("partner")) || []).forEach((c) => union.add(c));
+        if (union.size === 0) {
+            const legacy = readStoredList(LEGACY_STORAGE_KEY);
+            if (legacy) migrate(legacy).forEach((c) => union.add(c));
+        }
+        collectedBirdIds = union.size > 0
+            ? union
+            : new Set(birds.filter((b) => b.is_unlocked).map((b) => birdKey(b)));
+        return;
+    }
+
     try {
-        const saved = JSON.parse(localStorage.getItem(collectionKey()) || "null");
-        if (Array.isArray(saved)) {
+        const saved = readStoredList(collectionKey());
+        if (saved) {
             collectedBirdIds = migrate(saved);
             // Legacy numeric collections (001..024) pre-stable-ids: all dex birds
             // were unlocked, so a numeric-only save maps to at least the same count.
@@ -114,7 +156,7 @@ function loadCollection(birds) {
             return;
         }
         // First run for this profile: fall back to legacy shared key, then defaults.
-        const legacy = JSON.parse(localStorage.getItem(LEGACY_STORAGE_KEY) || "null");
+        const legacy = readStoredList(LEGACY_STORAGE_KEY);
         if (Array.isArray(legacy)) {
             collectedBirdIds = migrate(legacy);
             if (collectedBirdIds.size === 0 && legacy.length > 0) {
@@ -132,19 +174,52 @@ function loadCollection(birds) {
 }
 
 function saveCollection() {
+    if (isTeam()) {
+        // Team is a computed union: persist spotting to both personal dexes.
+        for (const profile of ["me", "partner"]) {
+            const existing = new Set(readStoredList(collectionKey(profile)) || []);
+            collectedBirdIds.forEach((c) => existing.add(c));
+            localStorage.setItem(collectionKey(profile), JSON.stringify([...existing]));
+        }
+        return;
+    }
     localStorage.setItem(collectionKey(), JSON.stringify([...collectedBirdIds]));
 }
 
 function loadCustom() {
+    const readCustom = (profile) => readStoredList(customKey(profile)) || [];
     try {
-        const saved = JSON.parse(localStorage.getItem(customKey()) || "[]");
-        customBirds = Array.isArray(saved) ? saved : [];
+        if (isTeam()) {
+            // Union of both partners' custom birds, deduplicated by key.
+            const seen = new Set();
+            customBirds = [...readCustom("me"), ...readCustom("partner")].filter((b) => {
+                const k = birdKey(b);
+                if (seen.has(k)) return false;
+                seen.add(k);
+                return true;
+            });
+        } else {
+            customBirds = readCustom(activeProfile);
+        }
     } catch {
         customBirds = [];
     }
 }
 
 function saveCustom() {
+    if (isTeam()) {
+        // Attribute team-view discoveries to Me to keep one writer.
+        const existing = new Set((readStoredList(customKey("me")) || []).map((b) => birdKey(b)));
+        const merged = [...(readStoredList(customKey("me")) || [])];
+        customBirds.forEach((b) => {
+            if (!existing.has(birdKey(b))) {
+                merged.push(b);
+                existing.add(birdKey(b));
+            }
+        });
+        localStorage.setItem(customKey("me"), JSON.stringify(merged));
+        return;
+    }
     localStorage.setItem(customKey(), JSON.stringify(customBirds));
 }
 
@@ -442,21 +517,23 @@ function parseCSV(text) {
     });
 }
 
-function findBird({ name, scientific, code }) {
+function findBird({ name, scientific, code, speciesCode }) {
     const n = (name || "").toLowerCase();
     const s = (scientific || "").toLowerCase();
     const c = (code || "").toLowerCase();
+    const sc = (speciesCode || "").toLowerCase();
     return allBirds.find((b) =>
         birdKey(b).toLowerCase() === c
+        || (sc && (b.speciesCode || "").toLowerCase() === sc)
         || (n && b.name.toLowerCase() === n)
         || (s && (b.scientific || "").toLowerCase() === s)
     );
 }
 
-function applySighting({ name, scientific, date, location }) {
+function applySighting({ name, scientific, date, location, speciesCode }) {
     if (!name) return null;
     const code = stableCode(name, scientific);
-    let bird = findBird({ name, scientific, code });
+    let bird = findBird({ name, scientific, code, speciesCode });
     if (bird) {
         // Keep earliest date like the python parser
         if (date && (!bird.date || date < bird.date)) {
@@ -464,6 +541,7 @@ function applySighting({ name, scientific, date, location }) {
             if (location) bird.location = location;
         }
         if (scientific && !bird.scientific) bird.scientific = scientific;
+        if (speciesCode && !bird.speciesCode) bird.speciesCode = speciesCode;
         collectedBirdIds.add(birdKey(bird));
         return bird;
     }
@@ -485,6 +563,7 @@ function applySighting({ name, scientific, date, location }) {
         icon_slug: slug,
         is_unlocked: true,
     };
+    if (speciesCode) bird.speciesCode = speciesCode;
     // Prefer real art if the slug happens to exist (onerror falls back anyway)
     bird.icon_path = `assets/icons/icon_${slug}.png`;
     bird.full_path = `assets/full/full_${slug}.png`;
@@ -534,6 +613,47 @@ async function importCSVFile(file) {
 }
 
 // ---- eBird API (BYO key, browser-direct, no backend) ----
+// Taxonomy lookup: cached 7 days, best-effort — sync still works without it.
+function getCachedTaxonomy() {
+    try {
+        const ts = Number(localStorage.getItem(TAXONOMY_TS_KEY) || 0);
+        if (!ts || Date.now() - ts > TAXONOMY_TTL_MS) return null;
+        const raw = JSON.parse(localStorage.getItem(TAXONOMY_KEY) || "null");
+        return Array.isArray(raw) ? raw : null;
+    } catch {
+        return null;
+    }
+}
+
+function taxonomyLookup(taxonomy) {
+    const map = new Map();
+    (taxonomy || []).forEach((t) => {
+        const code = t.speciesCode || "";
+        if (!code) return;
+        if (t.sciName) map.set(t.sciName.toLowerCase(), code);
+        if (t.comName) map.set(t.comName.toLowerCase(), code);
+    });
+    return (name, scientific) =>
+        map.get((scientific || "").toLowerCase()) || map.get((name || "").toLowerCase()) || "";
+}
+
+async function refreshTaxonomy(key) {
+    const cached = getCachedTaxonomy();
+    if (cached) return cached;
+    const res = await fetch("https://api.ebird.org/v2/ref/taxonomy/ebird?fmt=json", {
+        headers: { "X-eBirdApiToken": key },
+    });
+    if (!res.ok) throw new Error(`taxonomy fetch failed: ${res.status}`);
+    const taxonomy = await res.json();
+    try {
+        localStorage.setItem(TAXONOMY_KEY, JSON.stringify(taxonomy));
+        localStorage.setItem(TAXONOMY_TS_KEY, String(Date.now()));
+    } catch {
+        // quota exceeded — taxonomy still usable this session
+    }
+    return taxonomy;
+}
+
 async function syncEBird() {
     const key = (apiKeyInput?.value || localStorage.getItem(TOKEN_KEY) || "").trim();
     const region = (regionInput?.value || localStorage.getItem(REGION_KEY) || DEFAULT_REGION).trim() || DEFAULT_REGION;
@@ -545,6 +665,15 @@ async function syncEBird() {
     localStorage.setItem(REGION_KEY, region);
     setStatus(`Syncing recent observations for ${region}…`);
     try {
+        // Best-effort taxonomy for speciesCode aliases; obs sync works regardless.
+        let lookup = () => "";
+        try {
+            lookup = taxonomyLookup(await refreshTaxonomy(key));
+        } catch (taxErr) {
+            console.warn("taxonomy refresh skipped:", taxErr);
+            const cached = getCachedTaxonomy();
+            if (cached) lookup = taxonomyLookup(cached);
+        }
         const res = await fetch(
             `https://api.ebird.org/v2/data/obs/${encodeURIComponent(region)}/recent?back=30&maxResults=500&includeProvisional=true`,
             { headers: { "X-eBirdApiToken": key } }
@@ -563,6 +692,7 @@ async function syncEBird() {
                 scientific: o.sciName || "",
                 date: (o.obsDt || "").slice(0, 10),
                 location: o.locName || region,
+                speciesCode: o.speciesCode || lookup(o.comName, o.sciName),
             });
             if (bird) count++;
         });
