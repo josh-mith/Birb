@@ -4,167 +4,191 @@
     "name": "House Finch",
     "scientific": "Haemorhous mexicanus",
     "date": "2026-02-19",
-    "location": "Cortland Riverplace"
+    "location": "Cortland Riverplace",
+    "speciesCode": "houfin"
   },
   {
     "code": "cardinalis_cardinalis",
     "name": "Northern Cardinal",
     "scientific": "Cardinalis cardinalis",
     "date": "2026-02-19",
-    "location": "Cortland Riverplace"
+    "location": "Cortland Riverplace",
+    "speciesCode": "norcar"
   },
   {
     "code": "thryomanes_bewickii",
     "name": "Bewick's Wren",
     "scientific": "Thryomanes bewickii",
     "date": "2026-02-24",
-    "location": "Cortland Riverplace"
+    "location": "Cortland Riverplace",
+    "speciesCode": "bewwre"
   },
   {
     "code": "poecile_carolinensis",
     "name": "Carolina Chickadee",
     "scientific": "Poecile carolinensis",
     "date": "2026-02-27",
-    "location": "Bull creek"
+    "location": "Bull creek",
+    "speciesCode": "carchi"
   },
   {
     "code": "corvus_brachyrhynchos",
     "name": "American Crow",
     "scientific": "Corvus brachyrhynchos",
     "date": "2026-03-09",
-    "location": "Mount Pleasant"
+    "location": "Mount Pleasant",
+    "speciesCode": "amecro"
   },
   {
     "code": "bombycilla_cedrorum",
     "name": "Cedar Waxwing",
     "scientific": "Bombycilla cedrorum",
     "date": "2026-03-09",
-    "location": "Mount Pleasant"
+    "location": "Mount Pleasant",
+    "speciesCode": "cedwax"
   },
   {
     "code": "setophaga_coronata",
     "name": "Yellow-rumped Warbler",
     "scientific": "Setophaga coronata",
     "date": "2026-03-09",
-    "location": "Mount Pleasant"
+    "location": "Mount Pleasant",
+    "speciesCode": "yerwar"
   },
   {
     "code": "turdus_migratorius",
     "name": "American Robin",
     "scientific": "Turdus migratorius",
     "date": "2026-03-10",
-    "location": "Palmetto Park"
+    "location": "Palmetto Park",
+    "speciesCode": "amerob"
   },
   {
     "code": "branta_canadensis",
     "name": "Canada Goose",
     "scientific": "Branta canadensis",
     "date": "2026-03-10",
-    "location": "Lake"
+    "location": "Lake",
+    "speciesCode": "cangoo"
   },
   {
     "code": "junco_hyemalis",
     "name": "Dark-eyed Junco",
     "scientific": "Junco hyemalis",
     "date": "2026-03-10",
-    "location": "Palmetto Park"
+    "location": "Palmetto Park",
+    "speciesCode": "daejun"
   },
   {
     "code": "cistothorus_palustris",
     "name": "Marsh Wren",
     "scientific": "Cistothorus palustris",
     "date": "2026-03-10",
-    "location": "Palmetto Park"
+    "location": "Palmetto Park",
+    "speciesCode": "marwre"
   },
   {
     "code": "zenaida_macroura",
     "name": "Mourning Dove",
     "scientific": "Zenaida macroura",
     "date": "2026-03-10",
-    "location": "Palmetto Park"
+    "location": "Palmetto Park",
+    "speciesCode": "moudov"
   },
   {
     "code": "colaptes_auratus",
     "name": "Northern Flicker",
     "scientific": "Colaptes auratus",
     "date": "2026-03-10",
-    "location": "Palmetto Park"
+    "location": "Palmetto Park",
+    "speciesCode": "norfli"
   },
   {
     "code": "melanerpes_carolinus",
     "name": "Red-bellied Woodpecker",
     "scientific": "Melanerpes carolinus",
     "date": "2026-03-10",
-    "location": "Palmetto Park"
+    "location": "Palmetto Park",
+    "speciesCode": "rebwoo"
   },
   {
     "code": "baeolophus_bicolor",
     "name": "Tufted Titmouse",
     "scientific": "Baeolophus bicolor",
     "date": "2026-03-10",
-    "location": "Palmetto Park"
+    "location": "Palmetto Park",
+    "speciesCode": "tuftit"
   },
   {
     "code": "streptopelia_decaocto",
     "name": "Eurasian Collared-Dove",
     "scientific": "Streptopelia decaocto",
     "date": "2026-03-29",
-    "location": "Bubs Place"
+    "location": "Bubs Place",
+    "speciesCode": "eucdov"
   },
   {
     "code": "passer_domesticus",
     "name": "House Sparrow",
     "scientific": "Passer domesticus",
     "date": "2026-03-29",
-    "location": "Bubs Place"
+    "location": "Bubs Place",
+    "speciesCode": "houspa"
   },
   {
     "code": "molothrus_ater",
     "name": "Brown-headed Cowbird",
     "scientific": "Molothrus ater",
     "date": "2026-04-02",
-    "location": "Karlee"
+    "location": "Karlee",
+    "speciesCode": "bnhcow"
   },
   {
     "code": "zonotrichia_albicollis",
     "name": "White-throated Sparrow",
     "scientific": "Zonotrichia albicollis",
     "date": "2026-04-02",
-    "location": "Karlee"
+    "location": "Karlee",
+    "speciesCode": "whtspa"
   },
   {
     "code": "spinus_tristis",
     "name": "American Goldfinch",
     "scientific": "Spinus tristis",
     "date": "2026-04-03",
-    "location": "Karlee"
+    "location": "Karlee",
+    "speciesCode": "amegfi"
   },
   {
     "code": "thryothorus_ludovicianus",
     "name": "Carolina Wren",
     "scientific": "Thryothorus ludovicianus",
     "date": "2026-04-03",
-    "location": "Karlee"
+    "location": "Karlee",
+    "speciesCode": "carwre"
   },
   {
     "code": "zenaida_asiatica",
     "name": "White-winged Dove",
     "scientific": "Zenaida asiatica",
     "date": "2026-04-10",
-    "location": "Riverplace"
+    "location": "Riverplace",
+    "speciesCode": "whwdov"
   },
   {
     "code": "polioptila_caerulea",
     "name": "Blue-gray Gnatcatcher",
     "scientific": "Polioptila caerulea",
     "date": "2026-04-11",
-    "location": "Botanical Garden"
+    "location": "Botanical Garden",
+    "speciesCode": "buggna"
   },
   {
     "code": "vireo_griseus",
     "name": "White-eyed Vireo",
     "scientific": "Vireo griseus",
     "date": "2026-04-11",
-    "location": "Botanical Garden"
+    "location": "Botanical Garden",
+    "speciesCode": "whevir"
   }
 ]
