@@ -1,0 +1,48 @@
+TONIGHT'S RUN — paste STYLE LOCK + one existing sprite as reference, then work top to bottom.
+Save with EXACT filenames, then run: python scripts/tonight.py status
+
+BIRB SPRITE BATCH 003 — 8 species, 2 images each
+
+STYLE LOCK (apply to every sprite this session):
+16-bit era monster-collector game sprite, clean pixel clusters, limited
+palette, bold 2px dark outline, side 3/4 view facing left, single bird only,
+no text, no watermark, no background scenery for ICONS (transparent background),
+simple themed habitat vignette for FULL portraits. Match the look of the
+reference: chunky readable silhouette, big expressive eye highlight, vibrant
+but natural plumage colors. Square canvas. PNG output.
+
+Per-species prompts (one ICON + one FULL per species):
+
+## Ladder-backed Woodpecker (Dryobates scalaris)
+ICON: ICON, 512x512, transparent background. Ladder-backed Woodpecker, Dryobates scalaris game sprite. Key field marks true to life. Lives in Desert Scrub / Open Woodland. Save as icon_ladder_backed_woodpecker.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Ladder-backed Woodpecker, Dryobates scalaris, same individual as the icon, pose showing full body and tail. Lives in Desert Scrub / Open Woodland. Save as full_ladder_backed_woodpecker.png
+
+## Lincoln's Sparrow (Melospiza lincolnii)
+ICON: ICON, 512x512, transparent background. Lincoln's Sparrow, Melospiza lincolnii game sprite. Key field marks true to life. Lives in Brush / Wetland. Save as icon_lincolns_sparrow.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Lincoln's Sparrow, Melospiza lincolnii, same individual as the icon, pose showing full body and tail. Lives in Brush / Wetland. Save as full_lincolns_sparrow.png
+
+## Neotropic Cormorant (Nannopterum brasilianum)
+ICON: ICON, 512x512, transparent background. Neotropic Cormorant, Nannopterum brasilianum game sprite. Key field marks true to life. Lives in Lakeside / Wetland. Save as icon_neotropic_cormorant.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Neotropic Cormorant, Nannopterum brasilianum, same individual as the icon, pose showing full body and tail. Lives in Lakeside / Wetland. Save as full_neotropic_cormorant.png
+
+## Northern Mockingbird (Mimus polyglottos)
+ICON: ICON, 512x512, transparent background. Northern Mockingbird, Mimus polyglottos game sprite. Key field marks true to life. Lives in Urban / Brush. Save as icon_northern_mockingbird.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Northern Mockingbird, Mimus polyglottos, same individual as the icon, pose showing full body and tail. Lives in Urban / Brush. Save as full_northern_mockingbird.png
+
+## Orange-crowned Warbler (Leiothlypis celata)
+ICON: ICON, 512x512, transparent background. Orange-crowned Warbler, Leiothlypis celata game sprite. Key field marks true to life. Lives in Woodland Edge / Brush. Save as icon_orange_crowned_warbler.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Orange-crowned Warbler, Leiothlypis celata, same individual as the icon, pose showing full body and tail. Lives in Woodland Edge / Brush. Save as full_orange_crowned_warbler.png
+
+## Painted Bunting (Passerina ciris)
+ICON: ICON, 512x512, transparent background. Painted Bunting, Passerina ciris game sprite. Key field marks true to life. Lives in Brush / Grassland. Save as icon_painted_bunting.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Painted Bunting, Passerina ciris, same individual as the icon, pose showing full body and tail. Lives in Brush / Grassland. Save as full_painted_bunting.png
+
+## Pileated Woodpecker (Dryocopus pileatus)
+ICON: ICON, 512x512, transparent background. Pileated Woodpecker, Dryocopus pileatus game sprite. Key field marks true to life. Lives in Woodland. Save as icon_pileated_woodpecker.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Pileated Woodpecker, Dryocopus pileatus, same individual as the icon, pose showing full body and tail. Lives in Woodland. Save as full_pileated_woodpecker.png
+
+## Red-tailed Hawk (Buteo jamaicensis)
+ICON: ICON, 512x512, transparent background. Red-tailed Hawk, Buteo jamaicensis game sprite. Key field marks true to life. Lives in Open Country. Save as icon_red_tailed_hawk.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Red-tailed Hawk, Buteo jamaicensis, same individual as the icon, pose showing full body and tail. Lives in Open Country. Save as full_red_tailed_hawk.png
+
+Filenames are exact (lowercase, underscores). Do not rename or number them.

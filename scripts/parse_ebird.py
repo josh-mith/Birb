@@ -198,6 +198,24 @@ def check_images(entries, web_dir, strict=False):
     return missing
 
 
+def upgrade_art(entry, web_dir):
+    """Point silhouette entries at real PNGs once tonight's batches land.
+
+    Lets artists drop icon_{slug}.png / full_{slug}.png into web/assets/
+    without touching JSON: the next parser run picks them up automatically.
+    """
+    if not str(entry.get("icon_path", "")).startswith("assets/silhouettes/"):
+        return entry
+    slug = image_slug(entry.get("name", ""))
+    icon = f"assets/icons/icon_{slug}.png"
+    full = f"assets/full/full_{slug}.png"
+    if (web_dir / icon).exists() and (web_dir / full).exists():
+        entry = dict(entry)
+        entry["icon_path"] = icon
+        entry["full_path"] = full
+    return entry
+
+
 def main(argv=None):
     parser = build_parser()
     args = parser.parse_args(argv)
@@ -206,7 +224,10 @@ def main(argv=None):
     out_dir = Path(args.out)
     regional_file = Path(args.regional)
     web_dir = repo_root / "web"
-    taxonomy_map = load_taxonomy_map(args.taxonomy) if args.taxonomy else {}
+    tax_arg = args.taxonomy
+    if tax_arg is None and (web_dir / "data" / "taxonomy.json").exists():
+        tax_arg = str(web_dir / "data" / "taxonomy.json")
+    taxonomy_map = load_taxonomy_map(tax_arg) if tax_arg else {}
 
     def species_code_for(name, scientific):
         return taxonomy_map.get((scientific or "").strip().lower()) or taxonomy_map.get(
@@ -309,7 +330,7 @@ def main(argv=None):
     # Assign display numbers: sighted species first (by earliest date), then regional extras by name.
     all_birds = []
     for index, s in enumerate(sightings, start=1):
-        entry = dict(catalog_by_code[s["code"]])
+        entry = upgrade_art(dict(catalog_by_code[s["code"]]), web_dir)
         entry["num"] = f"{index:03d}"
         all_birds.append(entry)
     extras = sorted(
@@ -317,7 +338,7 @@ def main(argv=None):
         key=lambda c: c["name"],
     )
     for offset, entry in enumerate(extras, start=len(sightings) + 1):
-        row = dict(entry)
+        row = upgrade_art(dict(entry), web_dir)
         row["num"] = f"{offset:03d}"
         all_birds.append(row)
 

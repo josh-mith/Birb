@@ -1,0 +1,48 @@
+TONIGHT'S RUN — paste STYLE LOCK + one existing sprite as reference, then work top to bottom.
+Save with EXACT filenames, then run: python scripts/tonight.py status
+
+BIRB SPRITE BATCH 004 — 8 species, 2 images each
+
+STYLE LOCK (apply to every sprite this session):
+16-bit era monster-collector game sprite, clean pixel clusters, limited
+palette, bold 2px dark outline, side 3/4 view facing left, single bird only,
+no text, no watermark, no background scenery for ICONS (transparent background),
+simple themed habitat vignette for FULL portraits. Match the look of the
+reference: chunky readable silhouette, big expressive eye highlight, vibrant
+but natural plumage colors. Square canvas. PNG output.
+
+Per-species prompts (one ICON + one FULL per species):
+
+## Red-winged Blackbird (Agelaius phoeniceus)
+ICON: ICON, 512x512, transparent background. Red-winged Blackbird, Agelaius phoeniceus game sprite. Key field marks true to life. Lives in Fields / Wetland. Save as icon_red_winged_blackbird.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Red-winged Blackbird, Agelaius phoeniceus, same individual as the icon, pose showing full body and tail. Lives in Fields / Wetland. Save as full_red_winged_blackbird.png
+
+## Ruby-crowned Kinglet (Corthylio calendula)
+ICON: ICON, 512x512, transparent background. Ruby-crowned Kinglet, Corthylio calendula game sprite. Key field marks true to life. Lives in Woodland. Save as icon_ruby_crowned_kinglet.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Ruby-crowned Kinglet, Corthylio calendula, same individual as the icon, pose showing full body and tail. Lives in Woodland. Save as full_ruby_crowned_kinglet.png
+
+## Scissor-tailed Flycatcher (Tyrannus forficatus)
+ICON: ICON, 512x512, transparent background. Scissor-tailed Flycatcher, Tyrannus forficatus game sprite. Key field marks true to life. Lives in Open Country. Save as icon_scissor_tailed_flycatcher.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Scissor-tailed Flycatcher, Tyrannus forficatus, same individual as the icon, pose showing full body and tail. Lives in Open Country. Save as full_scissor_tailed_flycatcher.png
+
+## Song Sparrow (Melospiza melodia)
+ICON: ICON, 512x512, transparent background. Song Sparrow, Melospiza melodia game sprite. Key field marks true to life. Lives in Brush / Wetland. Save as icon_song_sparrow.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Song Sparrow, Melospiza melodia, same individual as the icon, pose showing full body and tail. Lives in Brush / Wetland. Save as full_song_sparrow.png
+
+## Spotted Sandpiper (Actitis macularius)
+ICON: ICON, 512x512, transparent background. Spotted Sandpiper, Actitis macularius game sprite. Key field marks true to life. Lives in Lakeside / Wetland. Save as icon_spotted_sandpiper.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Spotted Sandpiper, Actitis macularius, same individual as the icon, pose showing full body and tail. Lives in Lakeside / Wetland. Save as full_spotted_sandpiper.png
+
+## Summer Tanager (Piranga rubra)
+ICON: ICON, 512x512, transparent background. Summer Tanager, Piranga rubra game sprite. Key field marks true to life. Lives in Woodland. Save as icon_summer_tanager.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Summer Tanager, Piranga rubra, same individual as the icon, pose showing full body and tail. Lives in Woodland. Save as full_summer_tanager.png
+
+## Vermilion Flycatcher (Pyrocephalus rubinus)
+ICON: ICON, 512x512, transparent background. Vermilion Flycatcher, Pyrocephalus rubinus game sprite. Key field marks true to life. Lives in Open Country / Lakeside. Save as icon_vermilion_flycatcher.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Vermilion Flycatcher, Pyrocephalus rubinus, same individual as the icon, pose showing full body and tail. Lives in Open Country / Lakeside. Save as full_vermilion_flycatcher.png
+
+## White Ibis (Eudocimus albus)
+ICON: ICON, 512x512, transparent background. White Ibis, Eudocimus albus game sprite. Key field marks true to life. Lives in Wetland. Save as icon_white_ibis.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. White Ibis, Eudocimus albus, same individual as the icon, pose showing full body and tail. Lives in Wetland. Save as full_white_ibis.png
+
+Filenames are exact (lowercase, underscores). Do not rename or number them.

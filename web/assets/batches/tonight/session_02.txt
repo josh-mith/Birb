@@ -1,0 +1,48 @@
+TONIGHT'S RUN — paste STYLE LOCK + one existing sprite as reference, then work top to bottom.
+Save with EXACT filenames, then run: python scripts/tonight.py status
+
+BIRB SPRITE BATCH 002 — 8 species, 2 images each
+
+STYLE LOCK (apply to every sprite this session):
+16-bit era monster-collector game sprite, clean pixel clusters, limited
+palette, bold 2px dark outline, side 3/4 view facing left, single bird only,
+no text, no watermark, no background scenery for ICONS (transparent background),
+simple themed habitat vignette for FULL portraits. Match the look of the
+reference: chunky readable silhouette, big expressive eye highlight, vibrant
+but natural plumage colors. Square canvas. PNG output.
+
+Per-species prompts (one ICON + one FULL per species):
+
+## Crested Caracara (Caracara cheriway)
+ICON: ICON, 512x512, transparent background. Crested Caracara, Caracara cheriway game sprite. Key field marks true to life. Lives in Open Country. Save as icon_crested_caracara.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Crested Caracara, Caracara cheriway, same individual as the icon, pose showing full body and tail. Lives in Open Country. Save as full_crested_caracara.png
+
+## Downy Woodpecker (Dryobates pubescens)
+ICON: ICON, 512x512, transparent background. Downy Woodpecker, Dryobates pubescens game sprite. Key field marks true to life. Lives in Woodland. Save as icon_downy_woodpecker.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Downy Woodpecker, Dryobates pubescens, same individual as the icon, pose showing full body and tail. Lives in Woodland. Save as full_downy_woodpecker.png
+
+## Eastern Bluebird (Sialia sialis)
+ICON: ICON, 512x512, transparent background. Eastern Bluebird, Sialia sialis game sprite. Key field marks true to life. Lives in Fields / Orchard. Save as icon_eastern_bluebird.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Eastern Bluebird, Sialia sialis, same individual as the icon, pose showing full body and tail. Lives in Fields / Orchard. Save as full_eastern_bluebird.png
+
+## Eastern Phoebe (Sayornis phoebe)
+ICON: ICON, 512x512, transparent background. Eastern Phoebe, Sayornis phoebe game sprite. Key field marks true to life. Lives in Open Woodland / Urban. Save as icon_eastern_phoebe.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Eastern Phoebe, Sayornis phoebe, same individual as the icon, pose showing full body and tail. Lives in Open Woodland / Urban. Save as full_eastern_phoebe.png
+
+## European Starling (Sturnus vulgaris)
+ICON: ICON, 512x512, transparent background. European Starling, Sturnus vulgaris game sprite. Key field marks true to life. Lives in Urban / Fields. Save as icon_european_starling.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. European Starling, Sturnus vulgaris, same individual as the icon, pose showing full body and tail. Lives in Urban / Fields. Save as full_european_starling.png
+
+## Great Blue Heron (Ardea herodias)
+ICON: ICON, 512x512, transparent background. Great Blue Heron, Ardea herodias game sprite. Key field marks true to life. Lives in Wetland / Lakeside. Save as icon_great_blue_heron.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Great Blue Heron, Ardea herodias, same individual as the icon, pose showing full body and tail. Lives in Wetland / Lakeside. Save as full_great_blue_heron.png
+
+## Great Egret (Ardea alba)
+ICON: ICON, 512x512, transparent background. Great Egret, Ardea alba game sprite. Key field marks true to life. Lives in Wetland / Lakeside. Save as icon_great_egret.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Great Egret, Ardea alba, same individual as the icon, pose showing full body and tail. Lives in Wetland / Lakeside. Save as full_great_egret.png
+
+## Great-tailed Grackle (Quiscalus mexicanus)
+ICON: ICON, 512x512, transparent background. Great-tailed Grackle, Quiscalus mexicanus game sprite. Key field marks true to life. Lives in Urban / Open Country. Save as icon_great_tailed_grackle.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Great-tailed Grackle, Quiscalus mexicanus, same individual as the icon, pose showing full body and tail. Lives in Urban / Open Country. Save as full_great_tailed_grackle.png
+
+Filenames are exact (lowercase, underscores). Do not rename or number them.

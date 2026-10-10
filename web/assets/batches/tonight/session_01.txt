@@ -1,0 +1,48 @@
+TONIGHT'S RUN — paste STYLE LOCK + one existing sprite as reference, then work top to bottom.
+Save with EXACT filenames, then run: python scripts/tonight.py status
+
+BIRB SPRITE BATCH 001 — 8 species, 2 images each
+
+STYLE LOCK (apply to every sprite this session):
+16-bit era monster-collector game sprite, clean pixel clusters, limited
+palette, bold 2px dark outline, side 3/4 view facing left, single bird only,
+no text, no watermark, no background scenery for ICONS (transparent background),
+simple themed habitat vignette for FULL portraits. Match the look of the
+reference: chunky readable silhouette, big expressive eye highlight, vibrant
+but natural plumage colors. Square canvas. PNG output.
+
+Per-species prompts (one ICON + one FULL per species):
+
+## American Kestrel (Falco sparverius)
+ICON: ICON, 512x512, transparent background. American Kestrel, Falco sparverius game sprite. Key field marks true to life. Lives in Open Country / Fields. Save as icon_american_kestrel.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. American Kestrel, Falco sparverius, same individual as the icon, pose showing full body and tail. Lives in Open Country / Fields. Save as full_american_kestrel.png
+
+## Barn Swallow (Hirundo rustica)
+ICON: ICON, 512x512, transparent background. Barn Swallow, Hirundo rustica game sprite. Key field marks true to life. Lives in Open Country / Lakeside. Save as icon_barn_swallow.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Barn Swallow, Hirundo rustica, same individual as the icon, pose showing full body and tail. Lives in Open Country / Lakeside. Save as full_barn_swallow.png
+
+## Belted Kingfisher (Megaceryle alcyon)
+ICON: ICON, 512x512, transparent background. Belted Kingfisher, Megaceryle alcyon game sprite. Key field marks true to life. Lives in Lakeside / Wetland. Save as icon_belted_kingfisher.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Belted Kingfisher, Megaceryle alcyon, same individual as the icon, pose showing full body and tail. Lives in Lakeside / Wetland. Save as full_belted_kingfisher.png
+
+## Black-chinned Hummingbird (Archilochus alexandri)
+ICON: ICON, 512x512, transparent background. Black-chinned Hummingbird, Archilochus alexandri game sprite. Key field marks true to life. Lives in Garden / Woodland Edge. Save as icon_black_chinned_hummingbird.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Black-chinned Hummingbird, Archilochus alexandri, same individual as the icon, pose showing full body and tail. Lives in Garden / Woodland Edge. Save as full_black_chinned_hummingbird.png
+
+## Black-crested Titmouse (Baeolophus atricristatus)
+ICON: ICON, 512x512, transparent background. Black-crested Titmouse, Baeolophus atricristatus game sprite. Key field marks true to life. Lives in Woodland / Brush. Save as icon_black_crested_titmouse.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Black-crested Titmouse, Baeolophus atricristatus, same individual as the icon, pose showing full body and tail. Lives in Woodland / Brush. Save as full_black_crested_titmouse.png
+
+## Blue Jay (Cyanocitta cristata)
+ICON: ICON, 512x512, transparent background. Blue Jay, Cyanocitta cristata game sprite. Key field marks true to life. Lives in Woodland / Urban. Save as icon_blue_jay.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Blue Jay, Cyanocitta cristata, same individual as the icon, pose showing full body and tail. Lives in Woodland / Urban. Save as full_blue_jay.png
+
+## Chimney Swift (Chaetura pelagica)
+ICON: ICON, 512x512, transparent background. Chimney Swift, Chaetura pelagica game sprite. Key field marks true to life. Lives in Urban / Open Sky. Save as icon_chimney_swift.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Chimney Swift, Chaetura pelagica, same individual as the icon, pose showing full body and tail. Lives in Urban / Open Sky. Save as full_chimney_swift.png
+
+## Common Yellowthroat (Geothlypis trichas)
+ICON: ICON, 512x512, transparent background. Common Yellowthroat, Geothlypis trichas game sprite. Key field marks true to life. Lives in Wetland / Thicket. Save as icon_common_yellowthroat.png
+FULL: FULL portrait, 1024x1024, small habitat vignette behind the bird. Common Yellowthroat, Geothlypis trichas, same individual as the icon, pose showing full body and tail. Lives in Wetland / Thicket. Save as full_common_yellowthroat.png
+
+Filenames are exact (lowercase, underscores). Do not rename or number them.
